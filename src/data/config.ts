@@ -31,6 +31,7 @@ const config = {
   // for github stars button
   githubUsername: "Mayank32935M",
   githubRepo: "3d-portfolio",
+  resumeUrl: "https://drive.google.com/file/d/105-TO0kolAG8TMsSHe-WFWw980mDWVtz/view?usp=sharing",
 
   get ogImg() {
     return this.site + "/assets/seo/og-image.png";

@@ -174,7 +174,7 @@ const projects: Project[] = [
       backend: [
         PROJECT_SKILLS.python,
         PROJECT_SKILLS.fastapi,
-        PROJECT_SKILLS.docker,
+        PROJECT_SKILLS.sqlite,
       ],
     },
     live: "https://github.com/Mayank32935M/FORENSIC-X",
@@ -183,7 +183,7 @@ const projects: Project[] = [
       return (
         <div>
           <TypographyP className="font-mono text-2xl text-center">
-            🏆 National Finalist at SUTRAM 2026 (NFSU) · Creator &amp; Lead Developer
+            🛡️ Built for Hackathon SUTRAM 2026 (NFSU) · Creator &amp; Lead Developer
           </TypographyP>
           <TypographyP className="font-mono">
             FORENSIC-X is an end-to-end verifiable digital forensics and incident
@@ -288,9 +288,9 @@ const projects: Project[] = [
     id: "null-game",
     category: "Game Systems & Simulation",
     title: "NULL Game",
-    src: "/assets/projects/forensic_x_timeline.png",
+    src: "/assets/projects/null_game.svg",
     screenshots: [
-      "/assets/projects/forensic_x_timeline.png",
+      "/assets/projects/null_game.svg",
     ],
     skills: {
       frontend: [
@@ -403,7 +403,7 @@ const projects: Project[] = [
       backend: [
         PROJECT_SKILLS.python,
         PROJECT_SKILLS.fastapi,
-        PROJECT_SKILLS.docker,
+        PROJECT_SKILLS.sqlite,
       ],
     },
     live: "https://github.com/neptn-ui/Redzone",
@@ -412,7 +412,7 @@ const projects: Project[] = [
       return (
         <div>
           <TypographyP className="font-mono text-2xl text-center">
-            🌍 Smart India Hackathon (SIH 2026) · Team Project (neptn-ui)
+            🏆 National Finalist at Smart India Hackathon 2026 (SIH 2026, Team INDRI) · Frontend &amp; Impact Strategy Lead
           </TypographyP>
           <TypographyP className="font-mono">
             REDZONE is a decision-support platform designed for disaster management
