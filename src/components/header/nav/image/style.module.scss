@@ -1,21 +1,13 @@
 .imageContainer {
   display: none;
-  // transform: rotateX(30deg) rotateY(-10deg);
 }
-
-// .imageContainer > img {
-//   border-radius: var(--radius);
-// }
 
 @media only screen and (min-width: 1000px) {
   .imageContainer {
-    display: block;
-    width: 500px;
-    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 480px;
     position: relative;
-
-    img {
-      object-fit: cover;
-    }
   }
 }

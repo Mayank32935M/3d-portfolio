@@ -1,0 +1,17 @@
+<svg width="880" height="600" viewBox="0 0 880 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="880" height="600" fill="#030712"/>
+  <circle cx="500" cy="300" r="260" fill="#38bdf8" fill-opacity="0.08" filter="blur(60px)"/>
+  <rect x="40" y="40" width="800" height="520" rx="16" fill="#0f172a" fill-opacity="0.7" stroke="#1e293b" stroke-width="2"/>
+  
+  <text x="80" y="130" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="18" font-weight="700" letter-spacing="2">GET IN TOUCH</text>
+  <text x="80" y="190" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="44" font-weight="800">Let's build something remarkable.</text>
+  <text x="80" y="240" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="20">Open to AI/ML, backend, forensics, and systems opportunities.</text>
+  
+  <g transform="translate(80, 290)">
+    <text x="0" y="30" fill="#64748b" font-family="system-ui, sans-serif" font-size="16">EMAIL</text>
+    <text x="0" y="60" fill="#f1f5f9" font-family="system-ui, sans-serif" font-size="22" font-weight="600">montidabas6@gmail.com</text>
+    
+    <text x="0" y="110" fill="#64748b" font-family="system-ui, sans-serif" font-size="16">GITHUB</text>
+    <text x="0" y="140" fill="#f1f5f9" font-family="system-ui, sans-serif" font-size="22" font-weight="600">github.com/Mayank32935M</text>
+  </g>
+</svg>
