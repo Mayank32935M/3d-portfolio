@@ -1,0 +1,411 @@
+"use client";
+import React, { useContext, useState, useEffect, useRef, useCallback } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { motion } from "motion/react";
+
+import { SocketContext, Message, ChatItem } from "@/contexts/socketio";
+import { GameContext } from "@/contexts/game-context";
+import { useToast } from "@/components/ui/use-toast";
+import { Users, Users2, Hash, Settings, Gamepad2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+import { useChatScroll } from "./hooks/use-chat-scroll";
+import { useTyping } from "./hooks/use-typing";
+import { useSounds } from "./hooks/use-sounds";
+import { useConnectionStatus } from "./hooks/use-connection-status";
+import { ChatMessageList } from "./components/chat-message-list";
+import { ChatInput } from "./components/chat-input";
+import type { ProcessedCommand } from "./components/slash-command-menu";
+import { UserList } from "./components/user-list";
+import { EditProfileModal } from "./components/edit-profile-modal";
+import { AdminPasswordDialog } from "./components/admin-password-dialog";
+import { THEME } from "./constants";
+import { getAvatarUrl } from "@/lib/avatar";
+
+const OnlineUsers = () => {
+  const { socket, users: _users, msgs, hasMoreMessages, loadingHistory, fetchOlderMessages, initStatus, fetchInitialMessages, sendMessage, resendMessage, discardMessage } = useContext(SocketContext);
+  const { open: openGame } = useContext(GameContext);
+  const users = Array.from(_users.values());
+  const [showUserList, setShowUserList] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [replyTarget, setReplyTarget] = useState<Message | null>(null);
+  const [editTarget, setEditTarget] = useState<Message | null>(null);
+  const [showAdminDialog, setShowAdminDialog] = useState(false);
+
+  const currentUser = users.find(u => u.socketId === socket?.id);
+  const { toast } = useToast();
+  const { playSendSound, playReceiveSound } = useSounds();
+  const connectionStatus = useConnectionStatus(socket);
+  const prevMsgsLength = useRef(msgs.length);
+  const prevLastMsgId = useRef(msgs[msgs.length - 1]?.id);
+
+  // Driven by the server's "warning" event when msg-send is rate limited
+  const [rateLimitedUntil, setRateLimitedUntil] = useState<number | null>(null);
+
+  // Listen for server rate limit warnings and show the cooldown banner
+  useEffect(() => {
+    if (!socket) return;
+    const onWarning = (data: { message: string }) => {
+      if (data.message.includes("msg-send")) {
+        setRateLimitedUntil(Date.now() + 10_000);
+      }
+    };
+    socket.on("warning", onWarning);
+    return () => { socket.off("warning", onWarning); };
+  }, [socket]);
+
+  // Play send/receive sounds for regular messages
+  useEffect(() => {
+    if (msgs.length > prevMsgsLength.current) {
+      // Skip sounds when receiving initial message history (large batch on connect)
+      const isSmallBatch = msgs.length - prevMsgsLength.current <= 2;
+      const lastMsg = msgs[msgs.length - 1];
+      // same last msg = history prepend, not a new arrival
+      const isNew = lastMsg?.id !== prevLastMsgId.current;
+      const isSystem = lastMsg && "type" in lastMsg && lastMsg.type === "system";
+      let isRecent = true;
+      if (lastMsg?.createdAt) {
+        const msgTime = new Date(lastMsg.createdAt).getTime();
+        if (Date.now() - msgTime > 10000) isRecent = false;
+      }
+
+      // own sends play on submit, not on pending/echo
+      const isMine = lastMsg && !isSystem && (lastMsg as Message).sessionId === currentUser?.id;
+      if (isNew && isSmallBatch && isRecent && lastMsg && !isSystem && !isMine) {
+        playReceiveSound();
+      }
+    }
+    prevMsgsLength.current = msgs.length;
+    prevLastMsgId.current = msgs[msgs.length - 1]?.id;
+  }, [msgs, playReceiveSound, currentUser]);
+
+
+
+  const lastMsg = msgs[msgs.length - 1];
+  const {
+    chatContainer,
+    showScrollButton,
+    unreads,
+    unreadAfterId,
+    scrollToBottom,
+  } = useChatScroll(
+    msgs[0]?.id ? String(msgs[0].id) : undefined,
+    lastMsg?.id ? String(lastMsg.id) : undefined,
+    !!currentUser && lastMsg?.sessionId === currentUser.id
+  );
+
+  const {
+    typingUsers,
+    handleTyping,
+    getTypingText
+  } = useTyping(socket, currentUser, _users);
+
+  const handleEditLastMessage = useCallback(() => {
+    if (!currentUser) return;
+    const fiveMinAgo = Date.now() - 5 * 60 * 1000;
+    for (let i = msgs.length - 1; i >= 0; i--) {
+      const item = msgs[i];
+      if ("type" in item && item.type === "system") continue;
+      const msg = item as Message;
+      if (msg.sessionId !== currentUser.id || msg.status) continue;
+      if (new Date(msg.createdAt).getTime() < fiveMinAgo) break;
+      setEditTarget(msg);
+      return;
+    }
+  }, [msgs, currentUser]);
+
+  const handleCommand = (cmd: ProcessedCommand) => {
+    if (cmd.type === "admin") {
+      setShowAdminDialog(true);
+      return;
+    }
+    if (editTarget) {
+      socket?.emit("msg-edit", { id: editTarget.id, content: cmd.content });
+      setEditTarget(null);
+      return;
+    }
+
+    if (!currentUser) return;
+    sendMessage(cmd.content, currentUser, replyTarget);
+    playSendSound();
+    setReplyTarget(null);
+  };
+
+  const updateProfile = ({ name, avatar, color }: { name: string; avatar: string, color?: string }) => {
+    socket?.emit("update-user", {
+      username: name,
+      avatar,
+      color
+    });
+    localStorage.setItem("username", name);
+    localStorage.setItem("avatar", avatar);
+    if (color) localStorage.setItem("color", color);
+    const { dismiss } = toast({ title: "Profile updated" });
+    setTimeout(dismiss, 3000);
+  };
+
+  // Feature 6: Keyboard shortcut Ctrl+/ to toggle chat
+  const toggleOpen = useCallback(() => {
+    setIsOpen(prev => {
+      if (prev) setShowUserList(false);
+      else fetchInitialMessages();
+      return !prev;
+    });
+  }, [fetchInitialMessages]);
+
+  useEffect(() => {
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === "/") {
+        e.preventDefault();
+        toggleOpen();
+      }
+    };
+    document.addEventListener("keydown", handleKeydown);
+    return () => document.removeEventListener("keydown", handleKeydown);
+  }, [toggleOpen]);
+
+  const isSingleUser = users.length <= 1;
+
+  return (
+    <>
+      <Popover
+        open={isOpen}
+        onOpenChange={(newOpen) => {
+          // Prevent popover from closing while the profile modal is open (clicks outside)
+          if (!newOpen && isEditingProfile) return;
+          setIsOpen(newOpen);
+          if (newOpen) fetchInitialMessages();
+          if (!newOpen) setShowUserList(false)
+        }}
+      >
+        <div className="flex items-center gap-2" data-no-custom-cursor="true">
+          <TooltipProvider delayDuration={300}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className={cn(
+                      "mr-4 h-11 w-12 shadow-lg transition-all duration-300 z-50 p-0",
+                      "bg-background/20 hover:bg-background/80 backdrop-blur-sm border-2 border-white/30 rounded-lg",
+                      !isOpen && unreads > 0 && "animate-pulse border-green-500/50"
+                    )}
+                    aria-label={unreads > 0 ? `Open chat, ${unreads} unread` : `Open chat, ${users.length} online`}
+                  >
+                    <div className="relative flex items-center justify-center w-full h-full">
+                      <div className="relative">
+                        {unreads > 0 && (
+                          <motion.div
+                            initial={{ scale: 0.5, opacity: 1 }}
+                            animate={{ scale: [0.1, 2], opacity: [1, 0] }}
+                            transition={{
+                              duration: .4,
+                              delay: 0,
+                              ease: "easeOut",
+                              repeat: Infinity,
+                              repeatDelay: 2,
+                            }}
+                            className="absolute -inset-1 rounded-full bg-green-500/40"
+                          />
+                        )}
+                        <Users2 className="w-6 h-6" />
+                      </div>
+
+                      <span className={cn(
+                        "absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold transition-colors",
+                        unreads > 0 ? "bg-green-500 text-white" : "bg-red-500 text-white"
+                      )}>
+                        {unreads > 0 ? unreads : users.length}
+                      </span>
+                    </div>
+                  </Button>
+                </PopoverTrigger>
+              </TooltipTrigger>
+              <TooltipContent side="left">
+                <p>Chat <kbd className="ml-1 text-[10px] opacity-60">Ctrl+/</kbd></p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+
+        <PopoverContent
+          className={cn(
+            "w-80 min-h-[400px] sm:w-96 p-0 border-none shadow-2xl overflow-hidden rounded-xl mr-4 mb-4 flex flex-col",
+            THEME.bg.primary,
+            THEME.text.primary
+          )}
+          side="top"
+          data-no-custom-cursor="true"
+          onEscapeKeyDown={(e) => e.preventDefault()}
+        >
+          {/* Header */}
+          <div className={cn("h-12 flex items-center justify-between px-4 shadow-sm border-b shrink-0", THEME.bg.secondary, THEME.border.primary)}>
+            <div className={cn("flex items-center gap-2 font-semibold", THEME.text.header)}>
+              <Hash className={cn("w-5 h-5", THEME.text.secondary)} />
+              <span>general</span>
+              {/* Feature 2: Connection status indicator */}
+              <div className="flex items-center gap-1.5">
+                <div className={cn(
+                  "w-2 h-2 rounded-full",
+                  connectionStatus === "connected" && "bg-green-500",
+                  connectionStatus === "connecting" && "bg-yellow-500 animate-pulse",
+                  connectionStatus === "disconnected" && "bg-red-500",
+                )} />
+                {connectionStatus !== "connected" && (
+                  <span className={cn("text-[10px] font-normal", THEME.text.secondary)}>
+                    {connectionStatus === "connecting" ? "Connecting..." : "Disconnected"}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              {currentUser && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={cn(
+                    "h-9 w-9 p-0 gap-2 transition-colors rounded-full",
+                    THEME.bg.hover,
+                    THEME.text.secondary,
+                    "hover:text-[#060607] dark:hover:text-white"
+                  )}
+                  onClick={() => setIsEditingProfile(true)}
+                  title="Edit Profile"
+                  aria-label="Edit profile"
+                >
+                  <div className="relative w-8 h-8">
+                    <img
+                      src={getAvatarUrl(currentUser.avatar)}
+                      alt=""
+                      className="w-full h-full rounded-full ring-1 ring-black/10 dark:ring-white/10"
+                      style={{ backgroundColor: currentUser.color || '#60a5fa' }}
+                    />
+                    <div className="absolute -bottom-1 -right-1 bg-[#5865f2] rounded-full border-2 border-[var(--bg-primary)]">
+                      <Settings className="w-3 h-3 text-white" />
+                    </div>
+                  </div>
+                </Button>
+              )}
+
+              <Button
+                variant="ghost"
+                size="sm"
+                className={cn(
+                  "h-9 w-9 p-0 gap-2 transition-colors rounded-full",
+                  THEME.bg.hover,
+                  THEME.text.secondary,
+                  "hover:text-red-500 dark:hover:text-red-400"
+                )}
+                onClick={() => {
+                  setIsOpen(false);
+                  openGame();
+                }}
+                title="Play Zombie Survival"
+                aria-label="Play Zombie Survival"
+              >
+                <Gamepad2 className="w-4 h-4 text-red-500" />
+              </Button>
+
+              <div className="w-[1px] h-4 bg-black/10 dark:bg-white/10 mx-0.5" />
+
+              <Button
+                variant="outline"
+                size="sm"
+                className={cn(
+                  "transition-colors gap-2",
+                  THEME.bg.hover,
+                  `hover:${THEME.text.header.replace("text-", "text-")} `,
+                  "hover:text-[#060607] dark:hover:text-white",
+                  showUserList && cn(THEME.text.header, THEME.bg.active)
+                )}
+                onClick={() => setShowUserList(!showUserList)}
+                aria-label={`${users.length} online, show user list`}
+                aria-pressed={showUserList}
+              >
+                <div className="flex items-center gap-1">
+                  <div className="w-2 h-2 bg-green-500 rounded-full" aria-label="Online" role="status" />
+                  <span>
+                    {users.length}
+                  </span>
+                </div>
+                <Users className="w-5 h-5" />
+              </Button>
+            </div>
+          </div>
+
+          <div className={cn("relative flex flex-col flex-1", THEME.bg.primary)}>
+            <ChatMessageList
+              msgs={msgs}
+              users={users}
+              currentUser={currentUser}
+              chatContainerRef={chatContainer}
+              showScrollButton={showScrollButton}
+              unreads={unreads}
+              scrollToBottom={scrollToBottom}
+              isSingleUser={isSingleUser}
+              typingUsers={typingUsers}
+              getTypingText={getTypingText}
+              onReply={setReplyTarget}
+              onEdit={setEditTarget}
+              hasMoreMessages={hasMoreMessages}
+              loadingHistory={loadingHistory}
+              onLoadMore={fetchOlderMessages}
+              initStatus={initStatus}
+              unreadAfterId={unreadAfterId}
+            />
+
+            <ChatInput
+              onSendMessage={handleCommand}
+              onTyping={handleTyping}
+              placeholder="Message #general"
+              replyTarget={replyTarget}
+              onCancelReply={() => setReplyTarget(null)}
+              editTarget={editTarget}
+              onCancelEdit={() => setEditTarget(null)}
+              onEditLastMessage={handleEditLastMessage}
+              rateLimitedUntil={rateLimitedUntil}
+            />
+
+            <UserList
+              users={users}
+              socket={socket}
+              showUserList={showUserList}
+              onClose={() => setShowUserList(false)}
+              onEditProfile={() => setIsEditingProfile(true)}
+            />
+          </div>
+
+        </PopoverContent>
+      </Popover>
+
+      {currentUser && (
+        <EditProfileModal
+          user={currentUser}
+          isOpen={isEditingProfile}
+          onClose={() => setIsEditingProfile(false)}
+          updateProfile={updateProfile}
+        />
+      )}
+
+      <AdminPasswordDialog
+        isOpen={showAdminDialog}
+        onClose={() => setShowAdminDialog(false)}
+        onSubmit={(password) => socket?.emit("admin-auth", { password })}
+      />
+    </>
+  );
+};
+
+export default OnlineUsers;
