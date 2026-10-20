@@ -7,8 +7,11 @@ import { Download, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ResumeDoodle from "./resume-doodle";
 
+import { config } from "@/data/config";
+
 // Drop the compiled PDF here: frontend/public/Mayank_Dabas_Resume.pdf
 const RESUME_PATH = "/Mayank_Dabas_Resume.pdf";
+const RESUME_DRIVE_URL = config.resumeUrl;
 
 export default function ResumeView() {
   return (
@@ -36,16 +39,29 @@ export default function ResumeView() {
             <ArrowLeft className="h-4 w-4" />
             Back to portfolio
           </Link>
-          <Button>
-            <a
-              href={RESUME_PATH}
-              download
-              className="flex gap-2 text-sm transition-colors hover:text-foreground"
-            >
-              <Download className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
-              Download PDF
-            </a>
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" asChild>
+              <a
+                href={RESUME_PATH}
+                download="Mayank_Dabas_Resume.pdf"
+                className="flex gap-2 text-sm transition-colors hover:text-foreground"
+              >
+                <Download className="h-4 w-4" />
+                Download PDF
+              </a>
+            </Button>
+            <Button asChild>
+              <a
+                href={RESUME_DRIVE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex gap-2 text-sm transition-colors hover:text-foreground"
+              >
+                <Download className="h-4 w-4" />
+                Google Drive
+              </a>
+            </Button>
+          </div>
         </motion.div>
       </div>
 
