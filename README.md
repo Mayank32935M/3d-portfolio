@@ -1,209 +1,115 @@
 <div align="center">
 
-# 🚀 3D Portfolio
+# 🚀 Mayank Dabas — 3D Developer Portfolio
 
-**A developer portfolio you can actually play with.** Press keys on a 3D keyboard, watch other visitors' cursors fly by, and chat with whoever's online.
+**An interactive 3D developer portfolio showcasing verifiable systems, applied AI, and full-stack engineering.** Press keys on the 3D keyboard, explore projects, test the interactive PDF doodle resume, and chat in realtime.
 
-### [✨ Live Demo → nareshkhatri.dev](https://nareshkhatri.dev)
-
-[![GitHub stars](https://img.shields.io/github/stars/Naresh-Khatri/3d-portfolio?style=flat&logo=github)](https://github.com/Naresh-Khatri/3d-portfolio/stargazers)
-[![Forks](https://img.shields.io/github/forks/Naresh-Khatri/3d-portfolio?style=flat&logo=github)](https://github.com/Naresh-Khatri/3d-portfolio/network/members)
+[![GitHub stars](https://img.shields.io/github/stars/Mayank32935M/3d-portfolio?style=flat&logo=github)](https://github.com/Mayank32935M/3d-portfolio/stargazers)
+[![Forks](https://img.shields.io/github/forks/Mayank32935M/3d-portfolio?style=flat&logo=github)](https://github.com/Mayank32935M/3d-portfolio/network/members)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Next.js 16](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
+[![Next.js 16](https://img.shields.io/badge/Next.js-16.2.2-black?logo=next.js)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Naresh-Khatri/3d-portfolio)
-
-<!-- swap for demo video: drag an .mp4 into the GitHub web editor, paste the user-attachments URL on its own line here -->
-![Portfolio Preview](https://github.com/Naresh-Khatri/3d-portfolio/blob/main/public/assets/projects-screenshots/portfolio/landing.png?raw=true)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Mayank32935M/3d-portfolio)
 
 </div>
 
-> **Free to use!** This portfolio is open source. If you use it, a credit/link back would be really appreciated 🙏
+---
 
-## ✨ Features
+## ✨ Highlights & Features
 
-- **Interactive 3D Keyboard** — Programmatically generated Chibi keyboard where each keycap represents a skill, revealing titles and descriptions on hover/press. Try colors, logos, and layouts in the [Chibi keycap customizer](https://chibi.nareshkhatri.dev/demo/keycaps).
-- **Live Multiplayer** — See other visitors' cursors in realtime, who's online, and chat with them ([details](#-realtime-features-optional))
-- **Buttery Animations** — GSAP + Framer Motion powered scroll, hover, and reveal animations
-- **Space Theme** — Floating particles on a dark canvas for a cosmic vibe
-- **Easter Eggs** — Open DevTools and follow the clues 🐱
-- **Light & Dark Mode** — Full theme support with cheeky disclaimer toasts
-- **Responsive** — Works across all screen sizes
-- **Contact Form** — Email delivery via Resend
-- **Analytics** _(optional)_ — Umami analytics integration
+- **⌨️ Procedural 3D Mechanical Keyboard** — Procedurally generated 30-key Chibi keyboard mapping verified skills from my resume. Hover or press letter keys to illuminate keycaps and trigger 3D text descriptions.
+- **🛡️ Verifiable Projects Showcase** — Featured systems including FORENSIC-X, Suraksha Sense, NULL Game, Stivium IDE, and REDZONE.
+- **📄 Interactive Doodle Résumé** — Live PDF canvas with full doodle, pen, eraser, and color controls at `/resume`.
+- **🌐 Realtime Multiplayer** — Live cursor tracking, presence detection, and visitor chat.
+- **🌌 Space & Cosmic Aesthetics** — Dynamic particle background, responsive layouts, and buttery GSAP + Framer Motion transitions.
+- **🌓 Theme Engine** — Full light & dark mode support with tailored contrast.
+
+---
 
 ## 🛠️ Tech Stack
 
 | Layer | Technologies |
 |---|---|
-| **Framework** | Next.js 16.2.2, React 19.2.4, TypeScript |
-| **Styling** | Tailwind CSS, Shadcn UI, Aceternity UI |
-| **Animation** | GSAP, Framer Motion |
-| **3D** | @chibi3d/runtime, Three.js, React Three Fiber |
-| **Email** | Resend |
-| **Misc** | Lenis (smooth scroll), Zod, next-themes |
+| **Core Framework** | Next.js 16.2.2 (Turbopack), React 19.2.4, TypeScript |
+| **3D & Graphics** | @chibi3d/runtime, Three.js, React Three Fiber |
+| **Styling & UI** | Tailwind CSS, Shadcn UI, Aceternity UI |
+| **Animations** | GSAP, Framer Motion, Lenis Smooth Scroll |
+| **Realtime & State** | Socket.io, React Context |
+| **Email & Services** | Resend, Umami Analytics |
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Featured Projects
+
+- **[FORENSIC-X](https://github.com/Mayank32935M/FORENSIC-X)** — Verifiable digital forensics and incident reconstruction framework with SHA-256 hash-chained custody ledgers. Built for Nationals at Hackathon SUTRAM 2026 (NFSU).
+- **[Suraksha Sense](https://github.com/Mayank32935M/Suraksha-Sense)** — AI insurance gap advisor with Gemini analysis and Sarvam AI Hindi voice response (Paytm Build for India AI Hackathon).
+- **[NULL Game](https://github.com/Mayank32935M/null-game)** — Psychological intelligence thriller game and stateful simulation engine.
+- **[Stivium IDE](https://github.com/Mayank32935M/Stivium)** — Extensible desktop code editor with a high-performance Rust core and TypeScript + Tailwind frontend.
+- **[REDZONE](https://github.com/neptn-ui/Redzone)** — Geospatial decision-support tool for flood relocation in Assam. National Finalist at Smart India Hackathon 2026 (SIH 2026, Team INDRI).
+
+---
+
+## 💻 Getting Started
 
 ### Prerequisites
 
-- Node.js 20.9+ for Next.js 16; use a current LTS release with pnpm 11
-- pnpm 11.20.0
+- Node.js 20.9+ (LTS recommended)
+- [pnpm](https://pnpm.io/) 10+ (or `pnpm 11`)
 
 ### Installation
 
 1. **Clone the repository:**
-
-    ```bash
-    git clone https://github.com/Naresh-Khatri/3d-portfolio.git
-    cd 3d-portfolio
-    ```
+   ```bash
+   git clone https://github.com/Mayank32935M/3d-portfolio.git
+   cd 3d-portfolio
+   ```
 
 2. **Install dependencies:**
-
-    ```bash
-    pnpm install
-    ```
+   ```bash
+   pnpm install
+   ```
 
 3. **Set up environment variables:**
+   ```bash
+   cp .env.example .env.local
+   ```
+   Configure the following in `.env.local`:
+   | Variable | Required | Description |
+   |---|---|---|
+   | `RESEND_API_KEY` | Yes | API key from [Resend](https://resend.com) for the contact form |
+   | `NEXT_PUBLIC_WS_URL` | No | WebSocket server URL for realtime cursors and chat |
+   | `UMAMI_DOMAIN` | No | Umami analytics script URL |
+   | `UMAMI_SITE_ID` | No | Umami website ID |
 
-    Copy `.env.example` to `.env.local` and fill in the values:
-
-    ```bash
-    cp .env.example .env.local
-    ```
-
-    | Variable | Required | Description |
-    |---|---|---|
-    | `RESEND_API_KEY` | Yes | API key from [Resend](https://resend.com) for the contact form |
-    | `NEXT_PUBLIC_WS_URL` | No | WebSocket server URL for realtime features (cursors, chat, presence) |
-    | `UMAMI_DOMAIN` | No | Umami analytics script URL |
-    | `UMAMI_SITE_ID` | No | Umami website ID |
-
-4. **Run the development server:**
-
-    ```bash
-    pnpm dev
-    ```
-
-5. Open [http://localhost:3000](http://localhost:3000) and see the magic ✨
+4. **Start the local development server:**
+   ```bash
+   pnpm dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) (or specify `-p 3001`) to view the site.
 
 ---
 
-## Code checks
+## 🧪 Code Quality & Build Checks
 
-Run these before opening a pull request:
+Before submitting or deploying changes:
 
 ```bash
-pnpm lint
+# Typecheck
 pnpm typecheck
+
+# Lint check
+pnpm lint
+
+# Production build test
+pnpm build
 ```
 
-Next.js 16 no longer runs lint during builds. The ESLint CLI uses `eslint.config.mjs`. New React Compiler diagnostics for refs, immutability, effect state updates, and manual memoization report warnings while existing animation and realtime components are migrated. Hook ordering violations remain errors.
-
-Blog frontmatter requires a title, summary, and `publishedAt` date in `YYYY-MM-DD` format. Optional fields are `image`, `author`, and a list of `tags`. Invalid frontmatter raises a content error; unknown blog slugs return a 404.
-
-Files under `public/assets` can be replaced at the same URL and cache for one hour before revalidation. Next.js content-hashed static assets retain immutable caching.
-
 ---
 
-## 🎨 Make It Your Own
+## 📄 License & Attribution
 
-All personal info is centralized in [`src/data/config.ts`](src/data/config.ts). Edit this single file to rebrand the portfolio:
+This project is licensed under the [MIT License](LICENSE) © 2026 Mayank Dabas.
 
-```ts
-const config = {
-  title: "Your Name | Your Title",
-  description: {
-    long: "Your long description for SEO...",
-    short: "Your short description...",
-  },
-  keywords: ["your", "keywords"],
-  author: "Your Name",
-  email: "you@example.com",
-  site: "https://yoursite.com",
-
-  // GitHub stars button in the header
-  githubUsername: "your-github-username",
-  githubRepo: "your-repo-name",
-
-  social: {
-    twitter: "https://x.com/you",
-    linkedin: "https://linkedin.com/in/you",
-    instagram: "https://instagram.com/you",
-    facebook: "https://facebook.com/you",
-    github: "https://github.com/you",
-  },
-};
-```
-
-Other files you'll want to customize:
-
-| File | What to change |
-|---|---|
-| `src/data/projects.tsx` | Your projects, screenshots, descriptions, and tech stacks |
-| `src/data/constants.ts` | Skills list (name, description, icon) and work experience |
-| `public/assets/` | Your images, OG image, and project screenshots |
-
----
-
-## ⌨️ Customize the 3D keyboard
-
-Try colors, logos, and layouts in the [Chibi keycap customizer](https://chibi.nareshkhatri.dev/demo/keycaps), then apply your choices to `SKILLS` in [`src/data/constants.ts`](src/data/constants.ts):
-
-- `keyboardColor`: keycap color, such as `"#ff9408"`.
-- `keyboardIcon`: copy an SVG URL from [thesvg.org](https://thesvg.org) and paste it here. You can also use a local file under `public/assets/keyboard/logos/`.
-- `label` and `shortDescription`: text shown when interacting with a key.
-- `shortcut`: optional physical key code, such as `"KeyQ"`. Keep shortcuts unique; defaults follow QWERTY letter order.
-
-The demo accepts logo names too, but `keyboardIcon` needs an image URL or local asset path. Without keyboard overrides, keys use the skill's `color` and `icon`.
-
-Keys follow the order of `SKILLS`. To change the default six columns, pass a second argument to `createKeyboardScene` in [`keyboard-scene.tsx`](src/components/keyboard/keyboard-scene.tsx). Rows adjust automatically to the skill count.
-
----
-
-## 🔌 Realtime Features (Optional)
-
-The portfolio supports optional realtime features powered by a **separate backend API**:
-
-- 🖱️ **Live cursors** — See other visitors' cursors in realtime
-- 👥 **Online presence** — Shows who's currently on the site
-- 💬 **Chat** — Live chat between visitors
-- **Zombie Survival** with multiplayer and leaderboards on the live site.
-
-These features activate automatically when the `NEXT_PUBLIC_WS_URL` environment variable is set. Without it, the portfolio works perfectly fine as a static site — no realtime features, no backend dependency.
-
-> [!NOTE]
-> The backend API is **not open source**. This is intentional! Too many people have cloned the portfolio and claimed they built it from scratch. The realtime server stays private to keep the live experience unique and make it stand out.
-
-
----
-
-## 🚀 Deployment
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Naresh-Khatri/3d-portfolio)
-
-This site is deployed on **Vercel**. To deploy your own:
-
-1. Push your code to a GitHub repository
-2. Connect the repository to [Vercel](https://vercel.com)
-3. Add your environment variables in the Vercel dashboard
-4. Vercel handles the rest — automatic deployments on every push
-
----
-
-## 🤝 Contributing
-
-If you'd like to contribute or suggest improvements, feel free to open an issue or submit a pull request. All contributions are welcome!
-
----
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-If you use this portfolio, a credit or link back to the [original repo](https://github.com/Naresh-Khatri/3d-portfolio) would be much appreciated ❤️
-
-Note on analytics: a deployed copy reports its own hostname once per browser (nothing else — no visitor, page, or referrer data) so I can see where the template gets used.
+- **Base Template**: Based on the 3D portfolio architecture by [Naresh Khatri](https://github.com/Naresh-Khatri/3d-portfolio).
+- **Customization & Engineering**: Fully personalized, rebuilt, and maintained by [Mayank Dabas](https://github.com/Mayank32935M).
