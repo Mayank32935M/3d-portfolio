@@ -371,7 +371,7 @@ function ElasticCursor() {
         ref={jellyRef}
         id={"jelly-id"}
         className={cn(
-          "jelly-blob fixed left-0 top-0 border-2 border-black dark:border-white pointer-events-none will-change-transform"
+          "jelly-blob fixed left-0 top-0 bg-white mix-blend-difference pointer-events-none will-change-transform"
         )}
         style={{
           width: CURSOR_DIAMETER,
@@ -379,15 +379,13 @@ function ElasticCursor() {
           borderRadius: CURSOR_DIAMETER / 2,
           boxSizing: "border-box",
           zIndex: 100,
-          backdropFilter: "invert(100%)",
         }}
       ></div>
       <div
         ref={dotRef}
-        className="w-3 h-3 rounded-full fixed left-0 top-0 pointer-events-none will-change-transform"
+        className="w-3 h-3 rounded-full fixed left-0 top-0 bg-white mix-blend-difference pointer-events-none will-change-transform"
         style={{
           opacity: 0,
-          backdropFilter: "invert(100%)",
           zIndex: 101,
         }}
       ></div>
