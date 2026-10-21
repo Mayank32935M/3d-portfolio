@@ -190,8 +190,15 @@ function descriptionArtwork(text: string): string {
     else lines[lines.length - 1] += ` ${word}`;
   }
   const escape = (line: string) => line.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  const size = Math.min(68, 250 / Math.max(lines.length, 1));
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="300" viewBox="0 0 1024 300"><g fill="white" font-family="Arial, sans-serif" font-size="${size}" text-anchor="start">${lines.map((line, index) => `<text x="0" y="${78 + index * size * 1.2}">${escape(line)}</text>`).join("")}</g></svg>`;
+  // 3x supersampled canvas (3072x900) ensures razor-sharp text on mobile and high-DPI displays
+  const scale = 3;
+  const width = 1024 * scale;
+  const height = 300 * scale;
+  const baseSize = Math.min(68, 250 / Math.max(lines.length, 1));
+  const size = baseSize * scale;
+  const startY = 82 * scale;
+  const lineHeight = size * 1.22;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" text-rendering="geometricPrecision" shape-rendering="geometricPrecision"><g fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-weight="600" font-size="${size}" text-anchor="start">${lines.map((line, index) => `<text x="0" y="${startY + index * lineHeight}">${escape(line)}</text>`).join("")}</g></svg>`;
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 

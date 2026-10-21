@@ -1,0 +1,25 @@
+<svg width="880" height="600" viewBox="0 0 880 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="880" height="600" fill="#030712"/>
+  <circle cx="440" cy="300" r="280" fill="#8b5cf6" fill-opacity="0.09" filter="blur(60px)"/>
+  <rect x="40" y="40" width="800" height="520" rx="16" fill="#0f172a" fill-opacity="0.8" stroke="#1e293b" stroke-width="2"/>
+  
+  <rect x="80" y="100" width="160" height="32" rx="16" fill="#1e1b4b" stroke="#4338ca"/>
+  <text x="160" y="121" fill="#a5b4fc" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" letter-spacing="1" text-anchor="middle">ARTICLES &amp; NOTES</text>
+
+  <text x="80" y="210" fill="#f8fafc" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="800" letter-spacing="-1">ENGINEERING BLOG</text>
+  <text x="80" y="260" fill="#a78bfa" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="600">Deep Dives, Research &amp; Building in Public</text>
+  <text x="80" y="310" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="16">Verifiable digital forensics frameworks, AI models, systems programming &amp; interactive 3D.</text>
+
+  <!-- Article preview card -->
+  <rect x="80" y="360" width="720" height="140" rx="12" fill="#090d16" stroke="#1e293b"/>
+  <circle cx="116" cy="400" r="14" fill="#312e81"/>
+  <text x="116" y="405" fill="#c7d2fe" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" text-anchor="middle">01</text>
+  <text x="146" y="405" fill="#f1f5f9" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700">Achieving Milestones in AI &amp; Forensics</text>
+  <text x="146" y="435" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="14">Reflections on building tamper-evident tools, hackathons, and learning by shipping.</text>
+  
+  <rect x="146" y="455" width="80" height="24" rx="6" fill="#1e293b"/>
+  <text x="186" y="471" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Systems</text>
+
+  <rect x="236" y="455" width="70" height="24" rx="6" fill="#1e293b"/>
+  <text x="271" y="471" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" text-anchor="middle">AI &amp; ML</text>
+</svg>

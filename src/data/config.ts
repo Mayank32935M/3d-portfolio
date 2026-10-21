@@ -38,7 +38,7 @@ const config = {
   },
   social: {
     twitter: "https://x.com/Mayank32935M",
-    linkedin: "https://linkedin.com/in/Mayank32935M",
+    linkedin: "https://www.linkedin.com/in/mayank-dabas-64131b2ba",
     instagram: "https://instagram.com/Mayank32935M",
     facebook: "",
     github: "https://github.com/Mayank32935M",

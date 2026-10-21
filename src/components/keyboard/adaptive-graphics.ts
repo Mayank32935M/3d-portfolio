@@ -8,20 +8,20 @@ export type GraphicsSettings = {
 };
 
 const BASIC: GraphicsSettings = {
-  dpr: 1, shadows: false, softShadows: false, ao: false, bloom: false, lighting: false,
+  dpr: 1.5, shadows: false, softShadows: false, ao: false, bloom: false, lighting: false,
 };
 
 export const GRAPHICS_LEVELS: readonly GraphicsSettings[] = [
-  { ...BASIC, dpr: 0.75 },
-  BASIC,
-  { ...BASIC, lighting: true },
-  { ...BASIC, lighting: true, shadows: true },
-  { ...BASIC, lighting: true, shadows: true, softShadows: true },
-  { ...BASIC, lighting: true, shadows: true, softShadows: true, ao: true },
-  { ...BASIC, lighting: true, shadows: true, softShadows: true, ao: true, bloom: true },
+  { ...BASIC, dpr: 1.0 },
+  { ...BASIC, dpr: 1.25 },
+  { ...BASIC, dpr: 1.5, lighting: true },
+  { ...BASIC, dpr: 1.75, lighting: true, shadows: true },
+  { ...BASIC, dpr: 2.0, lighting: true, shadows: true, softShadows: true },
+  { ...BASIC, dpr: 2.0, lighting: true, shadows: true, softShadows: true, ao: true },
+  { ...BASIC, dpr: 2.0, lighting: true, shadows: true, softShadows: true, ao: true, bloom: true },
 ];
 
-export const INITIAL_GRAPHICS_LEVEL = 1;
+export const INITIAL_GRAPHICS_LEVEL = 2;
 export type FrameReading = { mean: number; p95: number };
 
 /** Only active-motion windows reach this controller. Failed upgrades stay capped for this visit. */

@@ -24,6 +24,7 @@ const links: Link[] = [
   {
     title: 'Blogs',
     href: '/blogs',
+    thumbnail: '/assets/menu-previews/blog.svg'
   },
   {
     title: 'Contact',

@@ -10,23 +10,24 @@ interface IndexProps {
 }
 
 const Index: React.FC<IndexProps> = ({ src, isActive }) => {
-  if (!src) return null;
-
   return (
     <motion.div
       variants={opacity}
       initial="initial"
-      animate={isActive ? "open" : "closed"}
+      animate={isActive && src ? "open" : "closed"}
       className={styles.imageContainer}
     >
       <div className="relative w-[440px] h-[300px] overflow-hidden rounded-2xl border border-white/10 shadow-2xl bg-neutral-900">
-        <Image
-          src={src}
-          alt="Navigation preview"
-          fill
-          sizes="440px"
-          className="object-cover object-top transition-transform duration-500 hover:scale-105"
-        />
+        {src && (
+          <Image
+            src={src}
+            alt="Navigation preview"
+            fill
+            sizes="440px"
+            className="object-cover object-top transition-transform duration-500 hover:scale-105"
+            priority
+          />
+        )}
       </div>
     </motion.div>
   );
