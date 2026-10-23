@@ -222,16 +222,30 @@ function ElasticCursor() {
       set.opacity(hidden ? 0 : 1);
       set.dotOpacity(0); // fold the dot away — one unified cursor
     } else {
-      // Free roam: elastic spring position + velocity-driven squish.
+      // Free roam: snappy, elastic physics with zero input lag
+      const prevX = pos.x;
+      const prevY = pos.y;
+
+      // Snappy lerp (0.32 gives immediate ~20ms response - zero lag, butter smooth)
+      const ease = 0.32;
+      pos.x = lerp(pos.x, pointer.x, ease);
+      pos.y = lerp(pos.y, pointer.y, ease);
+
+      // Instantaneous velocity derived from frame displacement
+      const vx = pos.x - prevX;
+      const vy = pos.y - prevY;
+      vel.x = lerp(vel.x, vx * 8, 0.4);
+      vel.y = lerp(vel.y, vy * 8, 0.4);
+
       const rotation = getAngle(vel.x, vel.y);
       const scale = getScale(vel.x, vel.y);
       jelly.x = pos.x;
       jelly.y = pos.y;
-      jelly.w = lerp(jelly.w, CURSOR_DIAMETER + scale * 300, 0.4);
-      jelly.h = lerp(jelly.h, CURSOR_DIAMETER, 0.4);
-      jelly.r = lerp(jelly.r, CURSOR_DIAMETER / 2, 0.4);
+      jelly.w = lerp(jelly.w, CURSOR_DIAMETER + scale * 180, 0.35);
+      jelly.h = lerp(jelly.h, CURSOR_DIAMETER - scale * 60, 0.35);
+      jelly.r = lerp(jelly.r, CURSOR_DIAMETER / 2, 0.35);
       jelly.sx = 1 + scale;
-      jelly.sy = 1 - scale * 2;
+      jelly.sy = 1 - scale * 0.5;
       set.x(pos.x);
       set.y(pos.y);
       set.width(jelly.w);
@@ -248,23 +262,18 @@ function ElasticCursor() {
   // Track the raw pointer, drive the free-roam spring, and update hide flag.
   useEffect(() => {
     if (isMobile || isBlogPost) return;
+
     const onMove = (e: MouseEvent) => {
       pointer.x = e.clientX;
       pointer.y = e.clientY;
       if (!cursorMovedRef.current) {
         cursorMovedRef.current = true;
         setCursorMoved(true);
+        pos.x = e.clientX;
+        pos.y = e.clientY;
+        jelly.x = e.clientX;
+        jelly.y = e.clientY;
       }
-      gsap.to(pos, {
-        x: e.clientX,
-        y: e.clientY,
-        duration: 1.5,
-        ease: "elastic.out(1, 0.5)",
-        onUpdate: () => {
-          vel.x = (e.clientX - pos.x) * 1.2;
-          vel.y = (e.clientY - pos.y) * 1.2;
-        },
-      });
 
       const hide = !!(e.target as Element | null)?.closest?.(
         '[data-no-custom-cursor="true"]'
@@ -272,7 +281,7 @@ function ElasticCursor() {
       isHiddenRef.current = hide;
       document.body.style.cursor = hide ? "auto" : "";
     };
-    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mousemove", onMove, { passive: true });
     return () => window.removeEventListener("mousemove", onMove);
   }, [isMobile, isBlogPost]);
 
@@ -371,7 +380,7 @@ function ElasticCursor() {
         ref={jellyRef}
         id={"jelly-id"}
         className={cn(
-          "jelly-blob fixed left-0 top-0 bg-white mix-blend-difference pointer-events-none will-change-transform"
+          "jelly-blob fixed left-0 top-0 border-2 border-black dark:border-white pointer-events-none will-change-transform"
         )}
         style={{
           width: CURSOR_DIAMETER,
@@ -379,13 +388,17 @@ function ElasticCursor() {
           borderRadius: CURSOR_DIAMETER / 2,
           boxSizing: "border-box",
           zIndex: 100,
+          backdropFilter: "invert(100%)",
+          WebkitBackdropFilter: "invert(100%)",
         }}
       ></div>
       <div
         ref={dotRef}
-        className="w-3 h-3 rounded-full fixed left-0 top-0 bg-white mix-blend-difference pointer-events-none will-change-transform"
+        className="w-3 h-3 rounded-full fixed left-0 top-0 pointer-events-none will-change-transform"
         style={{
           opacity: 0,
+          backdropFilter: "invert(100%)",
+          WebkitBackdropFilter: "invert(100%)",
           zIndex: 101,
         }}
       ></div>
