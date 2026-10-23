@@ -21,22 +21,22 @@ export const BlurIn = ({
   className,
   variant,
   delay = 0,
-  duration = 1,
+  duration = 0.8,
 }: BlurIntProps) => {
-  const { reducedMotion } = usePerfProfile();
+  const { reducedMotion, isMobile } = usePerfProfile();
   const defaultVariants = {
-    hidden: { filter: "blur(10px)", opacity: 0 },
-    visible: { filter: "blur(0px)", opacity: 1 },
+    hidden: { filter: isMobile ? "none" : "blur(8px)", opacity: 0, y: isMobile ? 12 : 0 },
+    visible: { filter: isMobile ? "none" : "blur(0px)", opacity: 1, y: 0 },
   };
   const combinedVariants = reducedMotion
-    ? { hidden: { filter: "none", opacity: 1 }, visible: { filter: "none", opacity: 1 } }
+    ? { hidden: { filter: "none", opacity: 1, y: 0 }, visible: { filter: "none", opacity: 1, y: 0 } }
     : variant || defaultVariants;
 
   return (
     <motion.div
       initial="hidden"
-      animate={reducedMotion ? { filter: "none", opacity: 1 } : "visible"}
-      transition={{ duration: reducedMotion ? 0 : duration, delay: reducedMotion ? 0 : delay }}
+      animate={reducedMotion ? { filter: "none", opacity: 1, y: 0 } : "visible"}
+      transition={{ duration: reducedMotion ? 0 : duration, delay: reducedMotion ? 0 : delay, ease: [0.25, 1, 0.5, 1] }}
       variants={combinedVariants}
       className={cn(
         className

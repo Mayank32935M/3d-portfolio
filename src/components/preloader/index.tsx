@@ -39,7 +39,7 @@ export const usePreloader = () => {
   }
   return context;
 };
-const LOADING_TIME = 2.5;
+const LOADING_TIME = 1.8;
 function Preloader({ children, disabled = false }: PreloaderProps) {
   const pathname = usePathname();
   // Skip the loading splash for the résumé route (and anywhere it's disabled).

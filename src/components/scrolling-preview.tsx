@@ -116,34 +116,43 @@ const ScrollingPreview = ({
           border: "1px solid rgba(255,255,255,0.18)",
         }}
       >
-        <motion.div
-          style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage: `url("${src}")`,
-            // Tall pages fill width and pan; normal images cover the frame.
-            backgroundSize: scrolls ? "100% auto" : "cover",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: scrolls ? "50% 0%" : "center",
-          }}
-          animate={
-            animate
-              ? {
-                  backgroundPosition: isHovered ? "50% 100%" : "50% 0%",
-                }
-              : { backgroundPosition: scrolls ? "50% 0%" : "center" }
-          }
-          transition={
-            animate
-              ? {
-                  duration: isHovered
-                    ? pan
-                    : Math.min(Math.max(pan * 0.35, 0.4), 0.75),
-                  ease: isHovered ? "linear" : [0.25, 1, 0.5, 1],
-                }
-              : { duration: 0 }
-          }
-        />
+        {scrolls ? (
+          <motion.div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: `${(viewportRef.current?.clientHeight ?? 0) + scrollPx}px`,
+              backgroundImage: `url("${src}")`,
+              backgroundSize: "100% auto",
+              backgroundRepeat: "no-repeat",
+              willChange: "transform",
+            }}
+            animate={animate ? { y: isHovered ? -scrollPx : 0 } : { y: 0 }}
+            transition={
+              animate
+                ? {
+                    duration: isHovered
+                      ? pan
+                      : Math.min(Math.max(pan * 0.35, 0.4), 0.75),
+                    ease: isHovered ? "linear" : [0.25, 1, 0.5, 1],
+                  }
+                : { duration: 0 }
+            }
+          />
+        ) : (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundImage: `url("${src}")`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          />
+        )}
       </div>
     </div>
   );
