@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
-import { useMousePosition } from "@/utils/mouse";
+import React, { useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import { PERFORMANCE_CONFIG } from "@/config/performance";
 
 interface ParticlesProps {
   className?: string;
@@ -30,11 +30,11 @@ type Circle = {
 
 export default function Particles({
   className = "",
-  quantity = 30,
+  quantity = PERFORMANCE_CONFIG.particles.desktopCount,
   staticity = 50,
   ease = 50,
   refresh = false,
-  maxDpr = 2,
+  maxDpr = 1.5,
 }: ParticlesProps) {
   const pathname = usePathname();
   const isBlogPost = pathname.startsWith("/blogs/") && pathname !== "/blogs";
@@ -43,13 +43,10 @@ export default function Particles({
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const context = useRef<CanvasRenderingContext2D | null>(null);
   const circles = useRef<Circle[]>([]);
-  const mousePosition = useMousePosition();
   const mouse = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const canvasSize = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
   const rafId = useRef<number>(0);
-  // Cap the device-pixel-ratio: a 3x screen otherwise triples the fill cost.
-  const dpr =
-    typeof window !== "undefined" ? Math.min(window.devicePixelRatio, maxDpr) : 1;
+  const dprRef = useRef<number>(1);
 
   useEffect(() => {
     if (isBlogPost) return;
@@ -59,6 +56,20 @@ export default function Particles({
     initCanvas();
     animate();
     window.addEventListener("resize", initCanvas);
+
+    // Passive direct mouse listener: updates ref with zero React component re-renders
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!canvasRef.current) return;
+      const rect = canvasRef.current.getBoundingClientRect();
+      const { w, h } = canvasSize.current;
+      const x = e.clientX - rect.left - w / 2;
+      const y = e.clientY - rect.top - h / 2;
+      if (x < w / 2 && x > -w / 2 && y < h / 2 && y > -h / 2) {
+        mouse.current.x = x;
+        mouse.current.y = y;
+      }
+    };
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
     // Pause the render loop while the tab is hidden — no point burning frames
     // (and battery) drawing to a canvas nobody can see.
@@ -75,13 +86,10 @@ export default function Particles({
     return () => {
       cancelAnimationFrame(rafId.current);
       window.removeEventListener("resize", initCanvas);
+      window.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [isBlogPost]);
-
-  useEffect(() => {
-    onMouseMove();
-  }, [mousePosition.x, mousePosition.y]);
 
   useEffect(() => {
     initCanvas();
@@ -92,22 +100,10 @@ export default function Particles({
     drawParticles();
   };
 
-  const onMouseMove = () => {
-    if (canvasRef.current) {
-      const rect = canvasRef.current.getBoundingClientRect();
-      const { w, h } = canvasSize.current;
-      const x = mousePosition.x - rect.left - w / 2;
-      const y = mousePosition.y - rect.top - h / 2;
-      const inside = x < w / 2 && x > -w / 2 && y < h / 2 && y > -h / 2;
-      if (inside) {
-        mouse.current.x = x;
-        mouse.current.y = y;
-      }
-    }
-  };
-
   const resizeCanvas = () => {
     if (canvasContainerRef.current && canvasRef.current && context.current) {
+      const dpr = typeof window !== "undefined" ? Math.min(window.devicePixelRatio, maxDpr) : 1;
+      dprRef.current = dpr;
       circles.current.length = 0;
       canvasSize.current.w = canvasContainerRef.current.offsetWidth;
       canvasSize.current.h = canvasContainerRef.current.offsetHeight;
@@ -152,6 +148,7 @@ export default function Particles({
       context.current.arc(x, y, size, 0, 2 * Math.PI);
       context.current.fillStyle = `rgba(255, 255, 255, ${alpha})`;
       context.current.fill();
+      const dpr = dprRef.current;
       context.current.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       if (!update) {
