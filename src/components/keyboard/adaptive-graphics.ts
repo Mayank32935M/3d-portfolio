@@ -1,3 +1,5 @@
+import { PERFORMANCE_CONFIG } from "@/config/performance";
+
 export type GraphicsSettings = {
   dpr: number;
   shadows: boolean;
@@ -8,17 +10,27 @@ export type GraphicsSettings = {
 };
 
 const BASIC: GraphicsSettings = {
-  dpr: 1.5, shadows: false, softShadows: false, ao: false, bloom: false, lighting: false,
+  dpr: 1.25,
+  shadows: false,
+  softShadows: false,
+  ao: false,
+  bloom: false,
+  lighting: false,
 };
 
 export const GRAPHICS_LEVELS: readonly GraphicsSettings[] = [
+  // Mobile / Power-save Tier 0: Lean rendering, no heavy shader passes
   { ...BASIC, dpr: 1.0 },
-  { ...BASIC, dpr: 1.25 },
-  { ...BASIC, dpr: 1.5, lighting: true },
-  { ...BASIC, dpr: 1.75, lighting: true, shadows: true },
-  { ...BASIC, dpr: 2.0, lighting: true, shadows: true, softShadows: true },
-  { ...BASIC, dpr: 2.0, lighting: true, shadows: true, softShadows: true, ao: true },
-  { ...BASIC, dpr: 2.0, lighting: true, shadows: true, softShadows: true, ao: true, bloom: true },
+  // Mobile Tier 1: Crisp text, lighting, standard shadows (no PCSS)
+  { ...BASIC, dpr: 1.35, lighting: true, shadows: true, softShadows: false },
+  // Mobile / Laptop Tier 2 (Balanced Default)
+  { ...BASIC, dpr: 1.5, lighting: true, shadows: true, softShadows: false },
+  // Desktop Tier 3: Soft shadows enabled
+  { ...BASIC, dpr: 1.6, lighting: true, shadows: true, softShadows: PERFORMANCE_CONFIG.graphics.softShadowsDesktop },
+  // Desktop Tier 4: Soft shadows + AO
+  { ...BASIC, dpr: 1.75, lighting: true, shadows: true, softShadows: PERFORMANCE_CONFIG.graphics.softShadowsDesktop, ao: true },
+  // Desktop High Tier 5: Full eye-candy (Bloom + AO + Soft Shadows)
+  { ...BASIC, dpr: PERFORMANCE_CONFIG.graphics.desktopMaxDpr, lighting: true, shadows: true, softShadows: true, ao: true, bloom: true },
 ];
 
 export const INITIAL_GRAPHICS_LEVEL = 2;

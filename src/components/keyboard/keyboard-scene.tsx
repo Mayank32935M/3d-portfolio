@@ -17,6 +17,7 @@ const SCENE_STYLE: CSSProperties = {
   inset: 0,
   width: "100vw",
   height: "100dvh",
+  touchAction: "pan-y",
 };
 
 export default function KeyboardScene({ maxDpr }: { maxDpr: number }) {

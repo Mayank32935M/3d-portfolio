@@ -4,6 +4,8 @@ import { Euler, Quaternion } from "three";
 import type { ChibiSceneApi, Vec3 } from "@chibi3d/runtime";
 import type { KeyboardScene } from "./scene";
 
+import { PERFORMANCE_CONFIG } from "@/config/performance";
+
 export type KeyboardSection = "hero" | "skills" | "projects" | "contact";
 const SCROLL_SECTIONS = [
   { id: "skills", previous: "hero", threshold: 0.5 },
@@ -40,6 +42,24 @@ export function createKeyboardMotion(
   let section: KeyboardSection = "hero";
   let disposed = false;
   let revealed = false;
+  let isIdle = false;
+  let idleTimeout: ReturnType<typeof setTimeout> | null = null;
+
+  const wake = () => {
+    if (disposed) return;
+    if (isIdle) {
+      isIdle = false;
+      api.setPaused(document.hidden);
+      [...loops, ...sectionTweens, ...revealTweens, ...pending, ...keyTweens].forEach((t) => t.paused(document.hidden));
+    }
+    if (idleTimeout) clearTimeout(idleTimeout);
+    idleTimeout = setTimeout(() => {
+      if (disposed || document.hidden) return;
+      isIdle = true;
+      api.setPaused(true);
+      [...loops, ...sectionTweens, ...revealTweens, ...pending, ...keyTweens].forEach((t) => t.paused(true));
+    }, PERFORMANCE_CONFIG.graphics.idleSleepMs);
+  };
   const position = vector([0, 0, 0]);
   const scale = vector([0.001, 0.001, 0.001]);
   const rotation = vector([0, 0, 0]);
@@ -87,6 +107,7 @@ export function createKeyboardMotion(
   };
   const applySection = (next: KeyboardSection, immediate = false) => {
     if (disposed) return;
+    wake();
     section = next;
     onSection(next);
     kill(sectionTweens);
@@ -98,8 +119,6 @@ export function createKeyboardMotion(
     }
     api.setNodeVisible(scene.labelsId, next === "skills");
     if (next === "hero") {
-      // The legacy restart() skips the configured 2.5s delay. Keep the live
-      // rotation so leaving a partially completed spin never snaps to zero.
       loops.push(gsap.to(rotation, { y: Math.PI * 2 + rotation.y, duration: 10,
         repeat: -1, yoyo: true, yoyoEase: true, ease: "back.inOut",
         onUpdate: applyPose,
@@ -127,7 +146,6 @@ export function createKeyboardMotion(
       if (disposed || section !== next) return;
       kill(keyTweens);
       if (next === "contact") {
-        // The normalized mesh is already upright; retain only the teardown yaw.
         sectionTweens[1]?.kill();
         loops.push(gsap.fromTo(rotation, { x: 0, y: 0, z: 0 }, {
           y: -Math.PI / 2, duration: 5, repeat: -1, yoyo: true,
@@ -137,7 +155,6 @@ export function createKeyboardMotion(
       const keys = scene.keys.map((key, index) => ({ key, index, offset: keyOffsets[index] }));
       if (next === "contact") keys.sort(() => Math.random() - 0.5);
       keys.forEach(({ index: keyIndex, offset }, index) => {
-        // Spline animates the skill group by 200–400 units; one cap is 296.7413.
         keyTweens.push(gsap.to(offset, next === "contact" ? {
           y: (200 + Math.random() * 200) / 296.741333,
           duration: 2 + Math.random() * 2, delay: index * 0.6,
@@ -175,6 +192,10 @@ export function createKeyboardMotion(
   const resize = () => { if (revealed) applySection(syncSection(), true); };
   window.addEventListener("resize", resize);
   document.addEventListener("visibilitychange", onVisibility);
+
+  const userEvents = ["pointermove", "pointerdown", "touchstart", "scroll", "keydown"] as const;
+  userEvents.forEach((ev) => window.addEventListener(ev, wake, { passive: true }));
+  wake();
   api.setNodeVisible(scene.boardId, false);
   return {
     reveal() {
@@ -203,6 +224,8 @@ export function createKeyboardMotion(
     },
     dispose() {
       disposed = true;
+      if (idleTimeout) clearTimeout(idleTimeout);
+      userEvents.forEach((ev) => window.removeEventListener(ev, wake));
       kill(loops); kill(sectionTweens); kill(revealTweens); kill(pending); kill(keyTweens);
       triggers.forEach((t) => t.kill());
       window.removeEventListener("resize", resize);
