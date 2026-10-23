@@ -33,30 +33,30 @@ const ProjectsLinks = ({ live, repo }: { live?: string; repo?: string }) => {
   return (
     <div className="flex flex-col md:flex-row items-center justify-start gap-3 my-3 mb-8">
       {live && live !== "#" && (
-        <Link
-          className="font-mono underline flex gap-2"
-          rel="noopener"
-          target="_blank"
-          href={live}
-        >
-          <Button variant={"default"} size={"sm"}>
+        <Button asChild variant={"default"} size={"sm"}>
+          <Link
+            className="font-mono underline flex gap-2"
+            rel="noopener"
+            target="_blank"
+            href={live}
+          >
             Repository &amp; Overview
             <ArrowUpRight className="ml-3 w-5 h-5" />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       )}
       {repo && repo !== "#" && repo !== live && (
-        <Link
-          className="font-mono underline flex gap-2"
-          rel="noopener"
-          target="_blank"
-          href={repo}
-        >
-          <Button variant={"default"} size={"sm"}>
+        <Button asChild variant={"default"} size={"sm"}>
+          <Link
+            className="font-mono underline flex gap-2"
+            rel="noopener"
+            target="_blank"
+            href={repo}
+          >
             Github
             <ArrowUpRight className="ml-3 w-5 h-5" />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       )}
     </div>
   );

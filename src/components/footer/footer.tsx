@@ -26,11 +26,11 @@ function Footer() {
 
           return (
             <Link
-              className="text-xs underline-offset-4 hover:underline"
-              href={href}
               key={`l_${index}`}
+              href={href}
+              className="text-xs underline-offset-4 hover:underline text-primary cursor-can-hover"
             >
-              <Button variant={"link"}>{title}</Button>
+              {title}
             </Link>
           );
         })}

@@ -81,60 +81,61 @@ const HeroSection = () => {
                 </BlurIn>
               </div>
               <div className="mt-8 flex flex-col gap-3 w-fit">
-                <Link
-                  href={"/resume"}
-                  className="flex-1"
-                >
-                  <BoxReveal delay={2} width="100%" >
-                    <Button className="flex items-center gap-2 w-full">
+                <BoxReveal delay={2} width="100%">
+                  <Button asChild className="flex items-center gap-2 w-full">
+                    <Link href={"/resume"} className="flex items-center gap-2 w-full">
                       <File size={24} />
-                      <p>Resume</p>
-                    </Button>
-                  </BoxReveal>
-                </Link>
+                      <span>Resume</span>
+                    </Link>
+                  </Button>
+                </BoxReveal>
                 <div className="md:self-start flex gap-3">
                   <Tooltip delayDuration={300}>
                     <TooltipTrigger asChild>
-                      <Link href={"#contact"}>
-                        <Button
-                          variant={"outline"}
-                          className="block w-full overflow-hidden"
-                        >
+                      <Button
+                        asChild
+                        variant={"outline"}
+                        className="block w-full overflow-hidden"
+                      >
+                        <Link href={"#contact"}>
                           Hire Me
-                        </Button>
-                      </Link>
+                        </Link>
+                      </Button>
                     </TooltipTrigger>
                     <TooltipContent side="bottom">
                       <p>pls 🥹 🙏</p>
                     </TooltipContent>
                   </Tooltip>
                   <div className="flex items-center h-full gap-2">
-                    <Link
-                      href={config.social.twitter}
-                      target="_blank"
-                    >
-                      <Button variant={"outline"}>
+                    <Button asChild variant={"outline"} size="icon">
+                      <Link
+                        href={config.social.twitter}
+                        target="_blank"
+                        aria-label="Twitter"
+                      >
                         <SiX size={24} />
-                      </Button>
-                    </Link>
-                    <Link
-                      href={config.social.github}
-                      target="_blank"
-                      className="cursor-can-hover"
-                    >
-                      <Button variant={"outline"}>
+                      </Link>
+                    </Button>
+                    <Button asChild variant={"outline"} size="icon">
+                      <Link
+                        href={config.social.github}
+                        target="_blank"
+                        className="cursor-can-hover"
+                        aria-label="GitHub"
+                      >
                         <SiGithub size={24} />
-                      </Button>
-                    </Link>
-                    <Link
-                      href={config.social.linkedin}
-                      target="_blank"
-                      className="cursor-can-hover"
-                    >
-                      <Button variant={"outline"}>
+                      </Link>
+                    </Button>
+                    <Button asChild variant={"outline"} size="icon">
+                      <Link
+                        href={config.social.linkedin}
+                        target="_blank"
+                        className="cursor-can-hover"
+                        aria-label="LinkedIn"
+                      >
                         <SiLinkedin size={24} />
-                      </Button>
-                    </Link>
+                      </Link>
+                    </Button>
                   </div>
                 </div>
               </div>
