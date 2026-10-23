@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { PERFORMANCE_CONFIG } from "@/config/performance";
 
 /**
  * Cross-component motion preference: an explicit user override of the OS
@@ -153,8 +154,14 @@ export function usePerfProfile(): PerfProfile {
     const lowEnd = saveData;
     const disable3D = reducedMotion || saveData;
     const disableDecorative = reducedMotion;
-    const particleCount = disableDecorative ? 0 : isMobile ? 30 : 100;
-    const maxDpr = isMobile ? 1.5 : 2;
+    const particleCount = disableDecorative
+      ? 0
+      : isMobile
+      ? PERFORMANCE_CONFIG.particles.mobileCount
+      : PERFORMANCE_CONFIG.particles.desktopCount;
+    const maxDpr = isMobile
+      ? PERFORMANCE_CONFIG.graphics.mobileMaxDpr
+      : PERFORMANCE_CONFIG.graphics.desktopMaxDpr;
     return {
       reducedMotion,
       rawReducedMotion,
