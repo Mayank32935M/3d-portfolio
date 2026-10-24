@@ -1,0 +1,1299 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Mayank Dabas — 3D Developer Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="assets/three-bundle.js"></script>
+    <script src="assets/keyboard/keycaps-base64.js"></script>
+    <style>
+      :root {
+        --bg: #030712;
+        --surface: #0b1120;
+        --surface-glass: rgba(15, 23, 42, 0.8);
+        --border: #1e293b;
+        --border-glow: rgba(56, 189, 248, 0.4);
+        --text-bright: #f8fafc;
+        --text-muted: #94a3b8;
+        --cyan: #38bdf8;
+        --cyan-glow: rgba(56, 189, 248, 0.35);
+        --orange: #f97316;
+        --purple: #c084fc;
+        --green: #4ade80;
+        --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        --font-mono: 'JetBrains Mono', monospace;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html, body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background-color: var(--bg);
+        font-family: var(--font-sans);
+        color: var(--text-bright);
+        -webkit-font-smoothing: antialiased;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: radial-gradient(circle at 50% 20%, #0f172a 0%, #030712 75%);
+      }
+
+      /* WebGL 3D Canvas Layer */
+      #three-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1920px;
+        height: 1080px;
+        z-index: 10;
+        pointer-events: none;
+      }
+
+      /* Subtle space grid and ambient particle backdrop */
+      .space-grid {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background-image: 
+          radial-gradient(1px 1px at 200px 180px, rgba(255,255,255,0.7), transparent),
+          radial-gradient(1.5px 1.5px at 600px 120px, rgba(56,189,248,0.8), transparent),
+          radial-gradient(1px 1px at 1050px 240px, rgba(255,255,255,0.6), transparent),
+          radial-gradient(2px 2px at 1500px 160px, rgba(192,132,252,0.8), transparent),
+          radial-gradient(1.5px 1.5px at 350px 720px, rgba(255,255,255,0.6), transparent),
+          radial-gradient(1.5px 1.5px at 850px 880px, rgba(56,189,248,0.7), transparent),
+          radial-gradient(2px 2px at 1700px 820px, rgba(255,255,255,0.8), transparent);
+        opacity: 0.7;
+        z-index: 1;
+      }
+      .grid-lines {
+        position: absolute;
+        inset: 0;
+        background-image: 
+          linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        background-size: 80px 80px;
+        opacity: 0.4;
+        z-index: 2;
+      }
+
+      /* Scene Clips */
+      .clip {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1920px;
+        height: 1080px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 90px 140px;
+        z-index: 20;
+      }
+
+      /* Kinetic Typography & Badges */
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 22px;
+        border-radius: 9999px;
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid var(--border-glow);
+        color: var(--cyan);
+        font-family: var(--font-mono);
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        margin-bottom: 24px;
+        width: fit-content;
+        box-shadow: 0 0 25px var(--cyan-glow);
+        backdrop-filter: blur(12px);
+      }
+      .badge-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: var(--cyan);
+        box-shadow: 0 0 8px var(--cyan);
+      }
+
+      .mask-wrapper {
+        overflow: hidden;
+        display: block;
+      }
+      .kinetic-title {
+        font-size: 70px;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        line-height: 1.15;
+        color: var(--text-bright);
+      }
+      .kinetic-sub {
+        font-size: 24px;
+        font-weight: 500;
+        color: var(--text-muted);
+        line-height: 1.5;
+        max-width: 720px;
+        margin-top: 24px;
+      }
+
+      /* SCENE 1: HOOK (Left text, 3D Keyboard on Right) */
+      #scene-1 .s1-content {
+        max-width: 860px;
+        z-index: 30;
+      }
+      #scene-1 .hook-strike {
+        text-decoration: line-through;
+        color: #64748b;
+        margin-right: 12px;
+      }
+      #scene-1 .hook-highlight {
+        color: #ffffff;
+        background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .s1-key-hud {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 36px;
+        padding: 12px 24px;
+        border-radius: 12px;
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(56, 189, 248, 0.3);
+        font-family: var(--font-mono);
+        font-size: 16px;
+        color: var(--cyan);
+      }
+
+      /* SCENE 2: INTERACTIVE SKILL MATRIX */
+      #scene-2 {
+        align-items: center;
+        text-align: center;
+        padding-top: 60px;
+      }
+      #scene-2 .s2-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+        z-index: 30;
+      }
+      #scene-2 .s2-title {
+        font-size: 58px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+      .s2-hud-container {
+        position: absolute;
+        bottom: 80px;
+        left: 140px;
+        right: 140px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        z-index: 30;
+      }
+      .hud-card {
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        padding: 22px 20px;
+        text-align: left;
+        backdrop-filter: blur(16px);
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .hud-card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .hud-key-badge {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--text-muted);
+      }
+      .hud-card-icon {
+        width: 32px;
+        height: 32px;
+      }
+      .hud-card-name {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text-bright);
+      }
+      .hud-card-desc {
+        font-size: 13px;
+        color: var(--text-muted);
+        line-height: 1.45;
+      }
+
+      /* SCENE 3: VERIFIABLE ENGINEERING / FORENSIC-X */
+      #scene-3 .forensic-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+      }
+      .forensic-text {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .forensic-title {
+        font-size: 64px;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+      }
+      .forensic-desc {
+        font-size: 20px;
+        color: var(--text-muted);
+        line-height: 1.6;
+        max-width: 680px;
+      }
+      .forensic-stats {
+        display: flex;
+        gap: 20px;
+        margin-top: 10px;
+      }
+      .stat-card {
+        padding: 16px 24px;
+        border-radius: 14px;
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .stat-number {
+        font-family: var(--font-mono);
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--cyan);
+      }
+      .stat-label {
+        font-size: 13px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      /* ScrollingPreview Authentic Replication */
+      .scrolling-preview-frame {
+        position: relative;
+        width: 780px;
+        height: 520px;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(56, 189, 248, 0.15);
+        background-color: #0b1120;
+      }
+      .scrolling-preview-bg {
+        position: absolute;
+        inset: 0;
+        background-image: url('assets/backgrounds/forensic-x.jpg');
+        background-size: cover;
+        background-position: center;
+        filter: brightness(0.7) blur(2px);
+        transform: scale(1.05);
+      }
+      .scrolling-preview-inner {
+        position: absolute;
+        inset: 20px;
+        border-radius: 14px;
+        overflow: hidden;
+        background: rgba(11, 17, 32, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        display: flex;
+        flex-direction: column;
+      }
+      .preview-browser-bar {
+        height: 38px;
+        background: rgba(15, 23, 42, 0.9);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        gap: 12px;
+      }
+      .browser-dots {
+        display: flex;
+        gap: 6px;
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+      .dot-red { background: #ef4444; }
+      .dot-yellow { background: #f59e0b; }
+      .dot-green { background: #10b981; }
+      .browser-url {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--text-muted);
+        background: rgba(0, 0, 0, 0.3);
+        padding: 4px 12px;
+        border-radius: 6px;
+        flex: 1;
+        max-width: 420px;
+      }
+      .preview-viewport {
+        position: relative;
+        flex: 1;
+        overflow: hidden;
+      }
+      .preview-scroll-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+      }
+      .preview-telemetry-overlay {
+        position: absolute;
+        bottom: 14px;
+        left: 14px;
+        right: 14px;
+        padding: 10px 16px;
+        background: rgba(3, 7, 18, 0.9);
+        border: 1px solid rgba(56, 189, 248, 0.3);
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--cyan);
+      }
+
+      /* SCENE 4: INTERACTIVE RESUME CANVAS */
+      #scene-4 .resume-layout {
+        display: grid;
+        grid-template-columns: 1fr 1.15fr;
+        gap: 70px;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+      }
+      .resume-canvas-mockup {
+        position: relative;
+        width: 840px;
+        height: 580px;
+        border-radius: 18px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        background: #0f172a;
+        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+        display: flex;
+        flex-direction: column;
+      }
+      .resume-toolbar {
+        height: 48px;
+        background: rgba(15, 23, 42, 0.95);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+      }
+      .tool-group {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .tool-btn {
+        padding: 6px 14px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.08);
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-bright);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .tool-colors {
+        display: flex;
+        gap: 8px;
+      }
+      .color-swatch {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 2px solid transparent;
+      }
+      .swatch-active {
+        border-color: #ffffff;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      }
+      .resume-view {
+        position: relative;
+        flex: 1;
+        overflow: hidden;
+        background: #0a0f1d;
+      }
+      .resume-img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .doodle-svg-layer {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .doodle-annotation-card {
+        position: absolute;
+        bottom: 30px;
+        right: 30px;
+        background: rgba(15, 23, 42, 0.95);
+        border: 2px solid #ff6bb9;
+        border-radius: 12px;
+        padding: 12px 20px;
+        color: #ff6bb9;
+        font-family: var(--font-mono);
+        font-size: 14px;
+        font-weight: 700;
+        box-shadow: 0 0 25px rgba(255, 107, 185, 0.35);
+      }
+
+      /* SCENE 5: OUTRO & CALL TO ACTION */
+      #scene-5 {
+        align-items: center;
+        text-align: center;
+      }
+      .outro-kicker {
+        font-family: var(--font-mono);
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--cyan);
+        margin-bottom: 18px;
+      }
+      .outro-headline {
+        font-size: 96px;
+        font-weight: 900;
+        letter-spacing: -0.04em;
+        line-height: 1.05;
+        background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #38bdf8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 20px;
+      }
+      .outro-tagline {
+        font-size: 26px;
+        font-weight: 600;
+        color: var(--text-muted);
+        letter-spacing: 0.05em;
+        margin-bottom: 40px;
+      }
+      .outro-pills {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        justify-content: center;
+      }
+      .pill-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 36px;
+        border-radius: 9999px;
+        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+        border: 1px solid rgba(56, 189, 248, 0.6);
+        color: #ffffff;
+        font-family: var(--font-mono);
+        font-size: 18px;
+        font-weight: 700;
+        box-shadow: 0 0 35px rgba(56, 189, 248, 0.4);
+      }
+      .pill-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 32px;
+        border-radius: 9999px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: var(--text-bright);
+        font-family: var(--font-mono);
+        font-size: 17px;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-width="1920" data-height="1080">
+      <div class="space-grid"></div>
+      <div class="grid-lines"></div>
+
+      <!-- WebGL 3D Canvas Rendering the Authentic 30-Key Mechanical Keyboard -->
+      <canvas id="three-canvas" width="1920" height="1080"></canvas>
+
+      <!-- AUDIO LAYER -->
+      <audio id="bgm" src="assets/music/happy-beats-business-moves-vol-1-by-ende-dot-app.mp3" data-start="0" data-duration="20" preload="auto"></audio>
+      <audio id="sfx-key-1" src="assets/sfx/keyboard/keypress-001.wav" data-start="1.0" data-duration="0.25" preload="auto"></audio>
+      <audio id="sfx-key-2" src="assets/sfx/keyboard/keypress-006.wav" data-start="1.7" data-duration="0.25" preload="auto"></audio>
+      <audio id="sfx-key-3" src="assets/sfx/keyboard/keypress-012.wav" data-start="4.2" data-duration="0.25" preload="auto"></audio>
+      <audio id="sfx-key-4" src="assets/sfx/keyboard/keypress-018.wav" data-start="5.0" data-duration="0.25" preload="auto"></audio>
+      <audio id="sfx-switch" src="assets/sfx/ui/switch1.ogg" data-start="8.8" data-duration="0.31" preload="auto"></audio>
+
+      <!-- SCENE 1: HOOK (0.0s - 3.8s) -->
+      <div id="scene-1" class="clip" data-start="0.0" data-duration="3.8" data-track-index="0">
+        <div class="s1-content">
+          <div class="badge" data-layout-ignore="true">
+            <span class="badge-dot"></span>
+            Mayank Dabas · Portfolio
+          </div>
+          <div class="mask-wrapper">
+            <h1 class="kinetic-title" id="s1-t1">
+              <span class="hook-strike">Boring static resumes</span>
+            </h1>
+          </div>
+          <div class="mask-wrapper">
+            <h1 class="kinetic-title" id="s1-t2">
+              are officially dead.
+            </h1>
+          </div>
+          <div class="mask-wrapper">
+            <h1 class="kinetic-title hook-highlight" id="s1-t3">
+              Meet the 30-Key 3D Terminal.
+            </h1>
+          </div>
+          <div class="s1-key-hud" id="s1-hud">
+            <span>⌨️ Procedural 3D Case</span>
+            <span>·</span>
+            <span>30 Interactive Skill Keys</span>
+            <span>·</span>
+            <span>Real Mechanical Physics</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 2: INTERACTIVE SKILL MATRIX (3.8s - 8.8s) -->
+      <div id="scene-2" class="clip" data-start="3.8" data-duration="5.0" data-track-index="0">
+        <div class="s2-header">
+          <div class="badge" data-layout-ignore="true">
+            <span class="badge-dot"></span>
+            Three.js · Spline · Chibi Runtime
+          </div>
+          <h2 class="s2-title">Every Key Is A Living Skill</h2>
+        </div>
+        <div class="s2-hud-container">
+          <div class="hud-card" id="hud-card-1">
+            <div class="hud-card-top">
+              <span class="hud-key-badge">Key Q</span>
+              <img src="assets/skills/python.svg" class="hud-card-icon" alt="Python" />
+            </div>
+            <div class="hud-card-name">Python</div>
+            <div class="hud-card-desc">Verifiable AI & ML systems and FastAPI pipelines</div>
+          </div>
+          <div class="hud-card" id="hud-card-2">
+            <div class="hud-card-top">
+              <span class="hud-key-badge">Key Y</span>
+              <img src="assets/skills/rust.svg" class="hud-card-icon" alt="Rust" />
+            </div>
+            <div class="hud-card-name">Rust</div>
+            <div class="hud-card-desc">High-performance core for desktop Stivium IDE</div>
+          </div>
+          <div class="hud-card" id="hud-card-3">
+            <div class="hud-card-top">
+              <span class="hud-key-badge">Key F</span>
+              <img src="assets/skills/gemini-api.svg" class="hud-card-icon" alt="Gemini" />
+            </div>
+            <div class="hud-card-name">Gemini API</div>
+            <div class="hud-card-desc">Multimodal intelligence & autonomous reasoning agents</div>
+          </div>
+          <div class="hud-card" id="hud-card-4">
+            <div class="hud-card-top">
+              <span class="hud-key-badge">Key I</span>
+              <img src="assets/skills/react.svg" class="hud-card-icon" alt="React" />
+            </div>
+            <div class="hud-card-name">React & Three.js</div>
+            <div class="hud-card-desc">60 FPS interactive WebGL 3D experiences</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 3: VERIFIABLE SYSTEMS / FORENSIC-X (8.8s - 13.5s) -->
+      <div id="scene-3" class="clip" data-start="8.8" data-duration="4.7" data-track-index="0">
+        <div class="forensic-layout">
+          <div class="forensic-text">
+            <div class="badge" data-layout-ignore="true">
+              <span class="badge-dot"></span>
+              Hackathon SUTRAM 2026 · NFSU Nationals
+            </div>
+            <h2 class="forensic-title">
+              Not Just Flashy 3D.<br />
+              Verifiable Systems.
+            </h2>
+            <p class="forensic-desc">
+              FORENSIC-X implements cryptographically signed SHA-256 evidence ledgers with court-admissible forensic proof.
+            </p>
+            <div class="forensic-stats">
+              <div class="stat-card">
+                <span class="stat-number">SHA-256</span>
+                <span class="stat-label">Custody Ledger</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number">19 Suites</span>
+                <span class="stat-label">Automated Verified Tests</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Authentic ScrollingPreview component instance -->
+          <div class="scrolling-preview-frame" id="s3-preview-frame">
+            <div class="scrolling-preview-bg" data-layout-allow-overflow="true" data-layout-ignore="true"></div>
+            <div class="scrolling-preview-inner">
+              <div class="preview-browser-bar">
+                <div class="browser-dots">
+                  <span class="dot dot-red"></span>
+                  <span class="dot dot-yellow"></span>
+                  <span class="dot dot-green"></span>
+                </div>
+                <div class="browser-url" data-layout-ignore="true">https://forensic-x.platform/audit/ledger-0824</div>
+              </div>
+              <div class="preview-viewport">
+                <img src="assets/images/forensic_x_dashboard.png" class="preview-scroll-img" id="s3-scroll-img" alt="FORENSIC-X Dashboard" data-layout-allow-overflow="true" />
+                <div class="preview-telemetry-overlay" data-layout-ignore="true">
+                  <span>LEDGER HASH: e3b0c44298fc1c14...</span>
+                  <span>STATUS: COURT-VERIFIED</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 4: INTERACTIVE RESUME CANVAS (13.5s - 17.2s) -->
+      <div id="scene-4" class="clip" data-start="13.5" data-duration="3.7" data-track-index="0">
+        <div class="resume-layout">
+          <div class="resume-text">
+            <div class="badge" data-layout-ignore="true">
+              <span class="badge-dot"></span>
+              Interactive At /resume
+            </div>
+            <h2 class="forensic-title">
+              Recruiters Can Literally Doodle on It
+            </h2>
+            <p class="forensic-desc">
+              Visitors draw, highlight, annotate directly on his résumé, and export custom signed copies.
+            </p>
+            <div class="s1-key-hud" style="margin-top: 24px;">
+              <span>✏️ Live Drawing</span>
+              <span>·</span>
+              <span>🎨 Color Palettes</span>
+              <span>·</span>
+              <span>📥 Export PDF</span>
+            </div>
+          </div>
+
+          <div class="resume-canvas-mockup" id="s4-canvas-frame">
+            <div class="resume-toolbar">
+              <div class="tool-group">
+                <div class="tool-btn">✏️ Doodle Mode Active</div>
+                <div class="tool-colors">
+                  <span class="color-swatch swatch-active" style="background: #ff7043;"></span>
+                  <span class="color-swatch" style="background: #5cc8ff;"></span>
+                  <span class="color-swatch" style="background: #ff6bb9;"></span>
+                </div>
+              </div>
+              <div class="tool-btn" style="background: #0369a1; color: #ffffff;" data-layout-ignore="true">📥 Download Signed PDF</div>
+            </div>
+            <div class="resume-view">
+              <img src="assets/images/live_resume.png" class="resume-img" alt="Mayank Dabas Resume" />
+              <!-- Hand-drawn SVG doodle highlighter and arrow -->
+              <svg class="doodle-svg-layer" viewBox="0 0 840 532">
+                <!-- Highlight over education -->
+                <path id="doodle-highlight" d="M 60 170 L 460 170" fill="none" stroke="#ff7043" stroke-width="24" stroke-linecap="round" stroke-opacity="0.35" stroke-dasharray="400" stroke-dashoffset="400" />
+                <!-- Handwritten circle / checkmark -->
+                <path id="doodle-circle" d="M 45 130 C 40 80, 220 70, 230 110 C 240 145, 100 160, 50 140" fill="none" stroke="#ff6bb9" stroke-width="4" stroke-linecap="round" stroke-dasharray="600" stroke-dashoffset="600" />
+              </svg>
+              <div class="doodle-annotation-card" id="s4-doodle-card">
+                ✨ Hard Tech & Verifiable Systems Verified!
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 5: OUTRO & CALL TO ACTION (17.2s - 20.0s) -->
+      <div id="scene-5" class="clip" data-start="17.2" data-duration="2.8" data-track-index="0">
+        <div class="outro-kicker" data-layout-ignore="true">Interactive 3D Developer Portfolio</div>
+        <h1 class="outro-headline" id="s5-name">MAYANK DABAS</h1>
+        <div class="outro-tagline" data-layout-ignore="true">
+          AI & ML Engineer · Verifiable Systems · 3D Web
+        </div>
+        <div class="outro-pills" id="s5-pills">
+          <div class="pill-primary">
+            <span>🚀 3d-portfolio-mu-tan.vercel.app</span>
+          </div>
+          <div class="pill-secondary">
+            <span>github.com/Mayank32935M/3d-portfolio</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ----------------------------------------------------
+      // 1. DATA: 30 SKILLS (6 columns x 5 rows)
+      // ----------------------------------------------------
+      const SKILLS_DATA = [
+        { name: "python", label: "Python", color: "#2b5b84", icon: "assets/skills/python.svg", shortcut: "KeyQ" },
+        { name: "typescript", label: "TypeScript", color: "#008fd5", icon: "assets/skills/typescript.svg", shortcut: "KeyW" },
+        { name: "javascript", label: "JavaScript", color: "#d4be11", icon: "assets/skills/javascript.svg", shortcut: "KeyE" },
+        { name: "sql", label: "SQL", color: "#2a5477", icon: "assets/skills/sql.svg", shortcut: "KeyR" },
+        { name: "html-css", label: "HTML/CSS", color: "#c73912", icon: "assets/skills/html-css.svg", shortcut: "KeyT" },
+        { name: "rust", label: "Rust", color: "#a35227", icon: "assets/skills/rust.svg", shortcut: "KeyY" },
+        { name: "fastapi", label: "FastAPI", color: "#008375", icon: "assets/skills/fastapi.svg", shortcut: "KeyU" },
+        { name: "react", label: "React", color: "#00cce8", icon: "assets/skills/react.svg", shortcut: "KeyI" },
+        { name: "vite", label: "Vite", color: "#4f55db", icon: "assets/skills/vite.svg", shortcut: "KeyO" },
+        { name: "nodejs-express", label: "Node/Express", color: "#539e43", icon: "assets/skills/nodejs-express.svg", shortcut: "KeyP" },
+        { name: "tailwind", label: "Tailwind", color: "#00bfd8", icon: "assets/skills/tailwind.svg", shortcut: "KeyA" },
+        { name: "tauri", label: "Tauri", color: "#d99b10", icon: "assets/skills/tauri.svg", shortcut: "KeyS" },
+        { name: "claude-api", label: "Claude API", color: "#b85635", icon: "assets/skills/claude-api.svg", shortcut: "KeyD" },
+        { name: "gemini-api", label: "Gemini API", color: "#2264d1", icon: "assets/skills/gemini-api.svg", shortcut: "KeyF" },
+        { name: "sarvam-ai", label: "Sarvam AI", color: "#c27803", icon: "assets/skills/sarvam-ai.svg", shortcut: "KeyG" },
+        { name: "agentic-workflows", label: "Agentic AI", color: "#7e22ce", icon: "assets/skills/agentic-workflows.svg", shortcut: "KeyH" },
+        { name: "mcp", label: "MCP", color: "#0891b2", icon: "assets/skills/mcp.svg", shortcut: "KeyJ" },
+        { name: "n8n", label: "n8n", color: "#c22b50", icon: "assets/skills/n8n.svg", shortcut: "KeyK" },
+        { name: "git-github", label: "GitHub", color: "#cf371b", icon: "assets/skills/git-github.svg", shortcut: "KeyL" },
+        { name: "vscode", label: "VS Code", color: "#0066b8", icon: "assets/skills/vscode.svg", shortcut: "Semicolon" },
+        { name: "pytest", label: "PyTest", color: "#06729e", icon: "assets/skills/pytest.svg", shortcut: "KeyZ" },
+        { name: "kali-linux", label: "Kali Linux", color: "#305060", icon: "assets/skills/kali-linux.svg", shortcut: "KeyX" },
+        { name: "powershell", label: "PowerShell", color: "#173c75", icon: "assets/skills/powershell.svg", shortcut: "KeyC" },
+        { name: "vercel", label: "Vercel", color: "#1f1f1f", icon: "assets/skills/vercel.svg", shortcut: "KeyV" },
+        { name: "google-cloud", label: "GCP", color: "#c93b2b", icon: "assets/skills/google-cloud.svg", shortcut: "KeyB" },
+        { name: "google-stitch", label: "Stitch", color: "#3d64cc", icon: "assets/skills/google-stitch.svg", shortcut: "KeyN" },
+        { name: "davinci-resolve", label: "DaVinci", color: "#942f20", icon: "assets/skills/davinci-resolve.svg", shortcut: "KeyM" },
+        { name: "capcut", label: "CapCut", color: "#111111", icon: "assets/skills/capcut.svg", shortcut: "Comma" },
+        { name: "canva", label: "Canva", color: "#0099ab", icon: "assets/skills/canva.svg", shortcut: "Period" },
+        { name: "c", label: "C Lang", color: "#4a5a8a", icon: "assets/skills/c.svg", shortcut: "Slash" }
+      ];
+
+      // Geometry constants from src/components/keyboard/scene.ts
+      const KIT = {
+        pitch: 1.04468,
+        keyY: 1.29117,
+        keyHeight: 0.7629,
+        logoY: 0.13985,
+        keyTop: 0.13102987408638,
+        cutX: 3.189,
+        cutZ: 2.053,
+        halfW: 3.67448,
+        halfD: 2.57744,
+      };
+
+      // ----------------------------------------------------
+      // 2. THREE.JS INITIALIZATION & 3D KEYBOARD SETUP
+      // ----------------------------------------------------
+      const canvas = document.getElementById("three-canvas");
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true,
+        powerPreference: "high-performance"
+      });
+      renderer.setSize(1920, 1080);
+      renderer.setPixelRatio(1);
+      renderer.toneMapping = THREE.LinearToneMapping;
+      renderer.toneMappingExposure = 1.0;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(36, 1920 / 1080, 0.1, 100);
+      camera.position.set(-9, 9.6, 9);
+      camera.lookAt(0, 0.6, 0);
+
+      // Lights matching scene.ts
+      const keyLight = new THREE.DirectionalLight(0xffffff, 2.8);
+      keyLight.position.set(-6, 8, -3);
+      scene.add(keyLight);
+
+      const fillLight = new THREE.DirectionalLight(0xffffff, 0.4);
+      fillLight.position.set(4, 6, 6);
+      scene.add(fillLight);
+
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight);
+
+      // Hierarchical groups
+      const keyboardRoot = new THREE.Group();
+      scene.add(keyboardRoot);
+
+      const keyboardSpinGroup = new THREE.Group();
+      keyboardRoot.add(keyboardSpinGroup);
+
+      const keyboardLayout = new THREE.Group();
+      keyboardSpinGroup.add(keyboardLayout);
+
+      const textureLoader = new THREE.TextureLoader();
+      const keyMeshes = [];
+
+      // Parse GLB from Base64
+      if (window.KEYCAPS_GLB_BASE64) {
+        const binaryStr = atob(window.KEYCAPS_GLB_BASE64);
+        const bytes = new Uint8Array(binaryStr.length);
+        for (let i = 0; i < binaryStr.length; i++) {
+          bytes[i] = binaryStr.charCodeAt(i);
+        }
+
+        const loader = new THREE.GLTFLoader();
+        loader.parse(bytes.buffer, "", (gltf) => {
+          const caseMeshes = {};
+          let keycapMesh = null;
+
+          gltf.scene.traverse((obj) => {
+            if (obj.isMesh) {
+              if (obj.name.startsWith("case_")) {
+                caseMeshes[obj.name] = obj;
+              } else if (obj.name === "keycap") {
+                keycapMesh = obj;
+              }
+            }
+          });
+
+          const cols = 6;
+          const rows = 5;
+          const innerX = KIT.cutX + ((cols - 6) * KIT.pitch) / 2;
+          const innerZ = KIT.cutZ + ((rows - 4) * KIT.pitch) / 2;
+          const span = innerX + innerZ + KIT.halfW - KIT.cutX + KIT.halfD - KIT.cutZ;
+          const fit = Math.min(1.2, (KIT.halfW + KIT.halfD) / span);
+          const keyboardCenterY = (KIT.keyY + KIT.keyTop) / 2;
+
+          keyboardLayout.position.set(0, -keyboardCenterY * fit, 0);
+          keyboardLayout.scale.set(fit, fit, fit);
+
+          // 9-Piece Sliced Case
+          const caseMaterial = new THREE.MeshStandardMaterial({
+            color: 0x171819,
+            roughness: 0.64,
+            metalness: 0.1
+          });
+
+          for (let z = 0; z < 3; z++) {
+            for (let x = 0; x < 3; x++) {
+              const name = `case_${x}${z}`;
+              const template = caseMeshes[name];
+              if (template) {
+                const piece = template.clone();
+                piece.material = caseMaterial;
+                const sx = x === 1 ? innerX / KIT.cutX : 1;
+                const sz = z === 1 ? innerZ / KIT.cutZ : 1;
+                piece.scale.set(sx, 1, sz);
+                piece.position.set(
+                  (x - 1) * (innerX - KIT.cutX),
+                  0,
+                  (z - 1) * (innerZ - KIT.cutZ)
+                );
+                keyboardLayout.add(piece);
+              }
+            }
+          }
+
+          // 30 Authentic Keycaps
+          if (keycapMesh) {
+            SKILLS_DATA.forEach((skill, index) => {
+              const col = index % cols;
+              const row = Math.floor(index / cols);
+              const xPos = (col - (cols - 1) / 2) * KIT.pitch;
+              const zPos = (row - (rows - 1) / 2) * KIT.pitch;
+
+              const slot = new THREE.Group();
+              slot.position.set(xPos, KIT.keyY, zPos);
+              keyboardLayout.add(slot);
+
+              const motion = new THREE.Group();
+              slot.add(motion);
+
+              const capMat = new THREE.MeshStandardMaterial({
+                color: new THREE.Color(skill.color),
+                roughness: 0.35,
+                metalness: 0.05,
+                emissive: new THREE.Color(skill.color),
+                emissiveIntensity: 0.0
+              });
+
+              const cap = keycapMesh.clone();
+              cap.material = capMat;
+              motion.add(cap);
+
+              // SVG Logo Texture on Keycap Top
+              const logoTex = textureLoader.load(skill.icon);
+              logoTex.colorSpace = THREE.SRGBColorSpace;
+              const logoMat = new THREE.MeshBasicMaterial({
+                map: logoTex,
+                transparent: true,
+                opacity: 0.95,
+                depthWrite: false
+              });
+              const logoGeom = new THREE.PlaneGeometry(0.52, 0.52);
+              const logoMesh = new THREE.Mesh(logoGeom, logoMat);
+              logoMesh.rotation.x = -Math.PI / 2;
+              logoMesh.position.y = KIT.logoY;
+              motion.add(logoMesh);
+
+              keyMeshes.push({
+                index,
+                skill,
+                slot,
+                motion,
+                material: capMat,
+                targetY: 0
+              });
+            });
+          }
+          renderer.render(scene, camera);
+        });
+      }
+
+      function renderThree() {
+        keyMeshes.forEach((k) => {
+          k.motion.position.y = k.targetY;
+        });
+        renderer.render(scene, camera);
+      }
+
+      // ----------------------------------------------------
+      // 3. GSAP ANIMATION TIMELINE (0.0s to 20.0s)
+      // ----------------------------------------------------
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+      tl.eventCallback("onUpdate", renderThree);
+
+      // Keyboard coordinate state objects for GSAP tweening
+      const kbPose = {
+        x: 1.85,
+        y: -0.2,
+        z: 0.2,
+        rotX: 0.12,
+        rotY: -Math.PI / 6,
+        rotZ: 0.12,
+        scale: 0.82,
+        opacity: 1
+      };
+
+      function updateKeyboardPose() {
+        keyboardRoot.position.set(kbPose.x, kbPose.y, kbPose.z);
+        keyboardSpinGroup.rotation.set(kbPose.rotX, kbPose.rotY, kbPose.rotZ);
+        keyboardRoot.scale.set(kbPose.scale, kbPose.scale, kbPose.scale);
+        canvas.style.opacity = kbPose.opacity;
+      }
+      updateKeyboardPose();
+
+      // Initial Element States
+      gsap.set("#scene-1", { opacity: 1 });
+      gsap.set("#s1-t1", { y: 60, opacity: 0 });
+      gsap.set("#s1-t2", { y: 60, opacity: 0 });
+      gsap.set("#s1-t3", { y: 60, opacity: 0 });
+      gsap.set("#s1-hud", { y: 30, opacity: 0 });
+
+      gsap.set("#scene-2", { opacity: 0 });
+      gsap.set(".hud-card", { opacity: 0, y: 50, scale: 0.9 });
+
+      gsap.set("#scene-3", { opacity: 0 });
+      gsap.set(".forensic-text", { opacity: 0, x: -70 });
+      gsap.set("#s3-preview-frame", { opacity: 0, x: 70, scale: 0.95 });
+      gsap.set("#s3-scroll-img", { y: 0 });
+
+      gsap.set("#scene-4", { opacity: 0 });
+      gsap.set(".resume-text", { opacity: 0, x: -60 });
+      gsap.set("#s4-canvas-frame", { opacity: 0, x: 60, scale: 0.95 });
+      gsap.set("#doodle-highlight", { strokeDashoffset: 400 });
+      gsap.set("#doodle-circle", { strokeDashoffset: 600 });
+      gsap.set("#s4-doodle-card", { opacity: 0, scale: 0.5, rotation: -8 });
+
+      gsap.set("#scene-5", { opacity: 0 });
+      gsap.set("#s5-name", { opacity: 0, scale: 0.88 });
+      gsap.set("#s5-pills", { opacity: 0, y: 30 });
+
+      // ====================================================
+      // SCENE 1 (0.0s - 3.8s): The Hook & 3D Keyboard Introduction
+      // ====================================================
+      tl.to("#s1-t1", { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 0.2);
+      tl.to("#s1-t2", { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 0.5);
+      tl.to("#s1-t3", { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, 0.8);
+      tl.to("#s1-hud", { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" }, 1.2);
+
+      // Keypress 1: Key Q (Python) presses on beat at 1.0s
+      tl.to(kbPose, {
+        onStart: () => {
+          if (keyMeshes[0]) {
+            keyMeshes[0].targetY = -0.45;
+            keyMeshes[0].material.emissiveIntensity = 0.9;
+          }
+        },
+        duration: 0.15
+      }, 1.0);
+      tl.to(kbPose, {
+        onStart: () => {
+          if (keyMeshes[0]) {
+            keyMeshes[0].targetY = 0;
+            keyMeshes[0].material.emissiveIntensity = 0.0;
+          }
+        },
+        duration: 0.2
+      }, 1.15);
+
+      // Keypress 2: Key W (TypeScript) presses on beat at 1.7s
+      tl.to(kbPose, {
+        onStart: () => {
+          if (keyMeshes[1]) {
+            keyMeshes[1].targetY = -0.45;
+            keyMeshes[1].material.emissiveIntensity = 0.9;
+          }
+        },
+        duration: 0.15
+      }, 1.7);
+      tl.to(kbPose, {
+        onStart: () => {
+          if (keyMeshes[1]) {
+            keyMeshes[1].targetY = 0;
+            keyMeshes[1].material.emissiveIntensity = 0.0;
+          }
+        },
+        duration: 0.2
+      }, 1.85);
+
+      // Subtle float on 3D keyboard in Scene 1
+      tl.to(kbPose, {
+        rotY: -Math.PI / 6 + 0.06,
+        y: -0.15,
+        duration: 2.0,
+        ease: "sine.inOut",
+        onUpdate: updateKeyboardPose
+      }, 1.0);
+
+      tl.to("#scene-1", { opacity: 0, duration: 0.35 }, 3.5);
+
+      // ====================================================
+      // SCENE 2 (3.8s - 8.8s): Interactive Skill Matrix
+      // ====================================================
+      tl.to("#scene-2", { opacity: 1, duration: 0.3 }, 3.8);
+
+      // 3D Keyboard glides smoothly to center front
+      tl.to(kbPose, {
+        x: 0,
+        y: -0.32,
+        z: 0.5,
+        rotX: 0.24,
+        rotY: Math.PI / 12,
+        rotZ: 0.04,
+        scale: 1.12,
+        duration: 0.9,
+        ease: "power2.out",
+        onUpdate: updateKeyboardPose
+      }, 3.8);
+
+      // Four Key Presses on beat with glowing HUD cards
+      // Key 1: Python (index 0) at 4.2s
+      tl.to(kbPose, {
+        onStart: () => {
+          if (keyMeshes[0]) {
+            keyMeshes[0].targetY = -0.45;
+            keyMeshes[0].material.emissiveIntensity = 1.0;
+          }
+        },
+        duration: 0.15
+      }, 4.2);
+      tl.to("#hud-card-1", { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, 4.3);
+      tl.to(kbPose, {
+        onStart: () => {
+          if (keyMeshes[0]) {
+            keyMeshes[0].targetY = 0;
+            keyMeshes[0].material.emissiveIntensity = 0.2;
+          }
+        },
+        duration: 0.2
+      }, 4.4);
+
+      // Key 2: Rust (index 5) at 5.0s
+      tl.to(kbPose, {
+        onStart: () => {
+          if (keyMeshes[5]) {
+            keyMeshes[5].targetY = -0.45;
+            keyMeshes[5].material.emissiveIntensity = 1.0;
+          }
+        },
+        duration: 0.15
+      }, 5.0);
+      tl.to("#hud-card-2", { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, 5.1);
+      tl.to(kbPose, {
+        onStart: () => {
+          if (keyMeshes[5]) {
+            keyMeshes[5].targetY = 0;
+            keyMeshes[5].material.emissiveIntensity = 0.2;
+          }
+        },
+        duration: 0.2
+      }, 5.2);
+
+      // Key 3: Gemini API (index 13) at 5.8s
+      tl.to(kbPose, {
+        onStart: () => {
+          if (keyMeshes[13]) {
+            keyMeshes[13].targetY = -0.45;
+            keyMeshes[13].material.emissiveIntensity = 1.0;
+          }
+        },
+        duration: 0.15
+      }, 5.8);
+      tl.to("#hud-card-3", { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, 5.9);
+      tl.to(kbPose, {
+        onStart: () => {
+          if (keyMeshes[13]) {
+            keyMeshes[13].targetY = 0;
+            keyMeshes[13].material.emissiveIntensity = 0.2;
+          }
+        },
+        duration: 0.2
+      }, 6.0);
+
+      // Key 4: React (index 7) at 6.6s
+      tl.to(kbPose, {
+        onStart: () => {
+          if (keyMeshes[7]) {
+            keyMeshes[7].targetY = -0.45;
+            keyMeshes[7].material.emissiveIntensity = 1.0;
+          }
+        },
+        duration: 0.15
+      }, 6.6);
+      tl.to("#hud-card-4", { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, 6.7);
+      tl.to(kbPose, {
+        onStart: () => {
+          if (keyMeshes[7]) {
+            keyMeshes[7].targetY = 0;
+            keyMeshes[7].material.emissiveIntensity = 0.2;
+          }
+        },
+        duration: 0.2
+      }, 6.8);
+
+      // Reset emissive intensities before scene end
+      tl.to(kbPose, {
+        onStart: () => {
+          [0, 5, 13, 7].forEach((idx) => {
+            if (keyMeshes[idx]) keyMeshes[idx].material.emissiveIntensity = 0.0;
+          });
+        },
+        duration: 0.1
+      }, 8.2);
+
+      tl.to("#scene-2", { opacity: 0, duration: 0.35 }, 8.5);
+
+      // ====================================================
+      // SCENE 3 (8.8s - 13.5s): Verifiable Systems & FORENSIC-X
+      // ====================================================
+      tl.to("#scene-3", { opacity: 1, duration: 0.3 }, 8.8);
+
+      // 3D Keyboard glides subtly to background right
+      tl.to(kbPose, {
+        x: 3.8,
+        y: 1.0,
+        z: -2.0,
+        rotX: 0.3,
+        rotY: -Math.PI / 4,
+        rotZ: 0.1,
+        scale: 0.65,
+        opacity: 0.35,
+        duration: 0.8,
+        ease: "power2.inOut",
+        onUpdate: updateKeyboardPose
+      }, 8.8);
+
+      tl.to(".forensic-text", { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 9.0);
+      tl.to("#s3-preview-frame", { opacity: 1, x: 0, scale: 1, duration: 0.7, ease: "power3.out" }, 9.2);
+
+      // Smooth vertical pan across FORENSIC-X dashboard in ScrollingPreview
+      tl.to("#s3-scroll-img", { y: -160, duration: 3.5, ease: "power1.inOut" }, 9.6);
+
+      tl.to("#scene-3", { opacity: 0, duration: 0.35 }, 13.2);
+
+      // ====================================================
+      // SCENE 4 (13.5s - 17.2s): Interactive /resume Doodle Canvas
+      // ====================================================
+      tl.to("#scene-4", { opacity: 1, duration: 0.3 }, 13.5);
+      tl.to(".resume-text", { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 13.7);
+      tl.to("#s4-canvas-frame", { opacity: 1, x: 0, scale: 1, duration: 0.6, ease: "power3.out" }, 13.9);
+
+      // Animated highlighter and doodle strokes
+      tl.to("#doodle-highlight", { strokeDashoffset: 0, duration: 0.8, ease: "power2.out" }, 14.5);
+      tl.to("#doodle-circle", { strokeDashoffset: 0, duration: 0.9, ease: "power2.out" }, 15.0);
+      tl.to("#s4-doodle-card", { opacity: 1, scale: 1, rotation: -2, duration: 0.45, ease: "back.out(2.0)" }, 14.8);
+
+      tl.to("#scene-4", { opacity: 0, duration: 0.35 }, 16.9);
+
+      // ====================================================
+      // SCENE 5 (17.2s - 20.0s): Kinetic Outro & Call-to-Action
+      // ====================================================
+      tl.to("#scene-5", { opacity: 1, duration: 0.3 }, 17.2);
+
+      // 3D Keyboard floats into low-angle isometric perspective
+      tl.to(kbPose, {
+        x: 0,
+        y: -1.05,
+        z: 0.9,
+        rotX: 0.28,
+        rotY: 0,
+        rotZ: 0,
+        scale: 1.0,
+        opacity: 0.75,
+        duration: 0.8,
+        ease: "power2.out",
+        onUpdate: updateKeyboardPose
+      }, 17.2);
+
+      // Slow elegant rotation during outro
+      tl.to(kbPose, {
+        rotY: 0.15,
+        duration: 2.0,
+        ease: "sine.inOut",
+        onUpdate: updateKeyboardPose
+      }, 18.0);
+
+      // Kinetic Typography reveal
+      tl.to("#s5-name", { 
+        opacity: 1, 
+        scale: 1, 
+        duration: 0.7, 
+        ease: "power3.out" 
+      }, 17.4);
+      tl.to("#s5-pills", { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.5)" }, 17.8);
+
+      tl.seek(0);
+    </script>
+  </body>
+</html>

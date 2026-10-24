@@ -1,0 +1,1 @@
+Most developer portfolios are static walls of text. Mayank Dabas built a playable 3D mechanical keyboard mapped to verified skills, court-admissible forensics engines with SHA-256 custody ledgers, and a live doodle canvas right over his résumé: https://3d-portfolio-mu-tan.vercel.app/

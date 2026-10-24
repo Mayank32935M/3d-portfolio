@@ -1,0 +1,558 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 7,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "composition_file_too_large",
+        "severity": "warning",
+        "message": "This HTML composition file has 762 lines. Smaller sub-compositions are easier to read, iterate on, and diff.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "D:\\Projects\\3d-portfolio\\brag-output\\composition\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Split coherent scenes or layers into separate .html files under compositions/, then mount them from the parent with data-composition-src so each file stays small enough to inspect, revise, and validate independently."
+      },
+      {
+        "code": "timeline_track_too_dense",
+        "severity": "warning",
+        "message": "Track 0 has 5 timed elements in this HTML file. Smaller sub-compositions keep timelines easier to read, iterate on, and diff.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "D:\\Projects\\3d-portfolio\\brag-output\\composition\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move coherent scene groups into separate .html files under compositions/ and mount them from the parent with data-composition-src so the timeline stays easier to inspect, revise, and validate."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"scene-1\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene-1",
+        "dataAttributes": {},
+        "sourceFile": "D:\\Projects\\3d-portfolio\\brag-output\\composition\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"scene-1\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"scene-2\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene-2",
+        "dataAttributes": {},
+        "sourceFile": "D:\\Projects\\3d-portfolio\\brag-output\\composition\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"scene-2\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"scene-3\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene-3",
+        "dataAttributes": {},
+        "sourceFile": "D:\\Projects\\3d-portfolio\\brag-output\\composition\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"scene-3\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"scene-4\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene-4",
+        "dataAttributes": {},
+        "sourceFile": "D:\\Projects\\3d-portfolio\\brag-output\\composition\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"scene-4\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"scene-5\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene-5",
+        "dataAttributes": {},
+        "sourceFile": "D:\\Projects\\3d-portfolio\\brag-output\\composition\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"scene-5\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      }
+    ],
+    "filesScanned": 1
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 2,
+    "findings": [
+      {
+        "code": "text_box_overflow",
+        "severity": "info",
+        "time": 1.111,
+        "selector": "#s1-t3",
+        "message": "Text extends outside its nearest visual/container box.",
+        "rect": {
+          "left": 140,
+          "top": 532,
+          "right": 803.44,
+          "bottom": 693,
+          "width": 663.44,
+          "height": 161
+        },
+        "containerSelector": "div.s1-content > div:nth-of-type(4)",
+        "text": "Meet the 30-Key 3D Terminal.",
+        "fixHint": "Text is 663px x 161px inside 860px x 161px and overflows by up to 3px; increase the container height to at least ~164px, or allow wrapping with max-width/fitTextFontSize.",
+        "containerRect": {
+          "left": 140,
+          "top": 529,
+          "right": 1000,
+          "bottom": 690,
+          "width": 860,
+          "height": 161
+        },
+        "overflow": {
+          "bottom": 3
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 140,
+          "y": 532,
+          "width": 663.44,
+          "height": 161
+        },
+        "firstSeen": 1.111,
+        "lastSeen": 1.111,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          1.111
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 1.111,
+        "selector": "#s1-t3",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 140,
+          "top": 532.75,
+          "right": 1000,
+          "bottom": 693.75,
+          "width": 860,
+          "height": 161
+        },
+        "containerSelector": "div.s1-content > div:nth-of-type(4)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 140,
+          "top": 529,
+          "right": 1000,
+          "bottom": 690,
+          "width": 860,
+          "height": 161
+        },
+        "overflow": {
+          "bottom": 3.75
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 140,
+          "y": 532.75,
+          "width": 860,
+          "height": 161
+        },
+        "firstSeen": 1.111,
+        "lastSeen": 1.111,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          1.111
+        ]
+      }
+    ],
+    "duration": 20,
+    "samples": [
+      1.111,
+      3.333,
+      5.556,
+      7.778,
+      10,
+      12.222,
+      14.444,
+      16.667,
+      18.889
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 2,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      1.111,
+      5.556,
+      10,
+      14.444,
+      18.889
+    ],
+    "checked": 27,
+    "passed": 27
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 2,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Visitors draw, highlight, annotate directly on his résumé...\" (13 words) is on screen 3.23 s (±0.01 s), under its 3.30 s floor: hold it about 0.5 s + 0.3 s a word (4.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Visitors draw, highlight, annotate directly on his résumé, and export custom signed copies.",
+        "selector": "div.resume-text > p:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 128.15,
+          "y": 577.39,
+          "width": 635.7,
+          "height": 56
+        },
+        "time": 13.805,
+        "words": 13,
+        "seconds": 3.234,
+        "floorSeconds": 3.3
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 28 text elements stay under it for 0.5 s or more, the smallest \"✨ Hard Tech & Verifiable Systems Veri...\" at 11 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "✨ Hard Tech & Verifiable Systems Verified!",
+        "selector": "#s4-doodle-card",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 1399.92,
+          "y": 757.55,
+          "width": 290.56,
+          "height": 36.7
+        },
+        "time": 14.875,
+        "times": [
+          1.375,
+          1.375,
+          1.375,
+          4.375,
+          4.375,
+          4.375,
+          5.25,
+          5.25,
+          5.25,
+          6,
+          6,
+          6,
+          6.875,
+          6.875,
+          6.875,
+          9.125,
+          9.125,
+          9.125,
+          9.125,
+          9.125,
+          13.875,
+          13.875,
+          13.875,
+          13.875,
+          14,
+          14.875,
+          17.875,
+          17.875
+        ],
+        "fontPx": 11.18,
+        "floorPx": 28,
+        "seconds": 2.25,
+        "elements": [
+          {
+            "selector": "#s4-doodle-card",
+            "text": "✨ Hard Tech & Verifiable Systems Verified!",
+            "fontPx": 11.18,
+            "time": 14.875,
+            "seconds": 2.25
+          },
+          {
+            "selector": "#hud-card-1 > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "Key Q",
+            "fontPx": 12.52,
+            "time": 4.375,
+            "seconds": 4.375
+          },
+          {
+            "selector": "#hud-card-1 > div:nth-of-type(3)",
+            "text": "Verifiable AI & ML systems and FastAPI pipelines",
+            "fontPx": 12.52,
+            "time": 4.375,
+            "seconds": 4.375
+          },
+          {
+            "selector": "div.tool-group > div:nth-of-type(1)",
+            "text": "✏️ Doodle Mode Active",
+            "fontPx": 12.69,
+            "time": 14,
+            "seconds": 3.125
+          },
+          {
+            "selector": "#hud-card-3 > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "Key F",
+            "fontPx": 12.78,
+            "time": 6,
+            "seconds": 2.75
+          },
+          {
+            "selector": "#hud-card-3 > div:nth-of-type(3)",
+            "text": "Multimodal intelligence & autonomous reasoning agents",
+            "fontPx": 12.78,
+            "time": 6,
+            "seconds": 2.75
+          },
+          {
+            "selector": "#hud-card-2 > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "Key Y",
+            "fontPx": 12.96,
+            "time": 5.25,
+            "seconds": 3.5
+          },
+          {
+            "selector": "#hud-card-2 > div:nth-of-type(3)",
+            "text": "High-performance core for desktop Stivium IDE",
+            "fontPx": 12.96,
+            "time": 5.25,
+            "seconds": 3.5
+          },
+          {
+            "selector": "#hud-card-4 > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "Key I",
+            "fontPx": 13,
+            "time": 6.875,
+            "seconds": 1.875
+          },
+          {
+            "selector": "#hud-card-4 > div:nth-of-type(3)",
+            "text": "60 FPS interactive WebGL 3D experiences",
+            "fontPx": 13,
+            "time": 6.875,
+            "seconds": 1.875
+          },
+          {
+            "selector": "div.forensic-stats > div:nth-of-type(1) > span:nth-of-type(2)",
+            "text": "Custody Ledger",
+            "fontPx": 13,
+            "time": 9.125,
+            "seconds": 4.25
+          },
+          {
+            "selector": "div.forensic-stats > div:nth-of-type(2) > span:nth-of-type(2)",
+            "text": "Automated Verified Tests",
+            "fontPx": 13,
+            "time": 9.125,
+            "seconds": 4.25
+          },
+          {
+            "selector": "#s1-hud > span:nth-of-type(1)",
+            "text": "⌨️ Procedural 3D Case",
+            "fontPx": 16,
+            "time": 1.375,
+            "seconds": 2.375
+          },
+          {
+            "selector": "#s1-hud > span:nth-of-type(3)",
+            "text": "30 Interactive Skill Keys",
+            "fontPx": 16,
+            "time": 1.375,
+            "seconds": 2.375
+          },
+          {
+            "selector": "#s1-hud > span:nth-of-type(5)",
+            "text": "Real Mechanical Physics",
+            "fontPx": 16,
+            "time": 1.375,
+            "seconds": 2.375
+          },
+          {
+            "selector": "div.resume-text > div:nth-of-type(2) > span:nth-of-type(1)",
+            "text": "✏️ Live Drawing",
+            "fontPx": 16,
+            "time": 13.875,
+            "seconds": 3.25
+          },
+          {
+            "selector": "div.resume-text > div:nth-of-type(2) > span:nth-of-type(3)",
+            "text": "🎨 Color Palettes",
+            "fontPx": 16,
+            "time": 13.875,
+            "seconds": 3.25
+          },
+          {
+            "selector": "div.resume-text > div:nth-of-type(2) > span:nth-of-type(5)",
+            "text": "📥 Export PDF",
+            "fontPx": 16,
+            "time": 13.875,
+            "seconds": 3.25
+          },
+          {
+            "selector": "div.pill-secondary > span:nth-of-type(1)",
+            "text": "github.com/Mayank32935M/3d-portfolio",
+            "fontPx": 17,
+            "time": 17.875,
+            "seconds": 2.125
+          },
+          {
+            "selector": "div.pill-primary > span:nth-of-type(1)",
+            "text": "🚀 3d-portfolio-mu-tan.vercel.app",
+            "fontPx": 18,
+            "time": 17.875,
+            "seconds": 2.125
+          },
+          {
+            "selector": "#hud-card-1 > div:nth-of-type(2)",
+            "text": "Python",
+            "fontPx": 19.26,
+            "time": 4.375,
+            "seconds": 4.375
+          },
+          {
+            "selector": "#hud-card-3 > div:nth-of-type(2)",
+            "text": "Gemini API",
+            "fontPx": 19.66,
+            "time": 6,
+            "seconds": 2.75
+          },
+          {
+            "selector": "#hud-card-2 > div:nth-of-type(2)",
+            "text": "Rust",
+            "fontPx": 19.94,
+            "time": 5.25,
+            "seconds": 3.5
+          },
+          {
+            "selector": "#hud-card-4 > div:nth-of-type(2)",
+            "text": "React & Three.js",
+            "fontPx": 20,
+            "time": 6.875,
+            "seconds": 1.875
+          },
+          {
+            "selector": "div.forensic-text > p:nth-of-type(1)",
+            "text": "FORENSIC-X implements cryptographically signed SHA-256 evidence ledgers with court-admissible forensic proof.",
+            "fontPx": 20,
+            "time": 9.125,
+            "seconds": 4.25
+          },
+          {
+            "selector": "div.resume-text > p:nth-of-type(1)",
+            "text": "Visitors draw, highlight, annotate directly on his résumé, and export custom signed copies.",
+            "fontPx": 20,
+            "time": 13.875,
+            "seconds": 3.25
+          },
+          {
+            "selector": "div.forensic-stats > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "SHA-256",
+            "fontPx": 26,
+            "time": 9.125,
+            "seconds": 4.25
+          },
+          {
+            "selector": "div.forensic-stats > div:nth-of-type(2) > span:nth-of-type(1)",
+            "text": "19 Suites",
+            "fontPx": 26,
+            "time": 9.125,
+            "seconds": 4.25
+          }
+        ]
+      }
+    ],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 160
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}
