@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "f67cbe8b-8327-41be-a0ce-908a47cae6d0",
-  "currentRevision": "e667409b-fb9f-4a9e-a933-c9414ddd9a86",
+  "currentRevision": "bbcb0d0b-01a4-4b37-aa6e-7eb8e6dd84c0",
   "pendingChanges": false,
   "files": {
     "AGENTS.md": {
@@ -177,8 +177,8 @@
       "content": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\53\\53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50"
     },
     "index.html": {
-      "hash": "236cdf2590582c9a09d86cd4bff189347079ac43b5d9344a3c281f7f65bfdc28",
-      "content": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\23\\236cdf2590582c9a09d86cd4bff189347079ac43b5d9344a3c281f7f65bfdc28"
+      "hash": "c5cba2932949016bd4cf83571d1a24b312029de3d1d07ead25f149f2d84d476f",
+      "content": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\c5\\c5cba2932949016bd4cf83571d1a24b312029de3d1d07ead25f149f2d84d476f"
     },
     "meta.json": {
       "hash": "e9be16482c7cf1fef9b109a536eb8709fbab97852ab905135ed48c925a1a6ad7",
@@ -591,6 +591,50 @@
     "assets/three-entry.js": {
       "hash": "69fcc9c397d960b0d28ade9c90a33c117953d01857ab03a5dd0f2b4200ea836e",
       "content": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\69\\69fcc9c397d960b0d28ade9c90a33c117953d01857ab03a5dd0f2b4200ea836e"
+    },
+    "assets/images/mayank_halftone_portrait.webp": {
+      "hash": "9ec5312202dbb59fd2d2099a44ed87a91a9f6238231e8574ebc05b752e70f366",
+      "content": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\9e\\9ec5312202dbb59fd2d2099a44ed87a91a9f6238231e8574ebc05b752e70f366"
+    },
+    "assets/projects/eventtwin_zonemap.png": {
+      "hash": "5a714c925088abe9cc6e5a68de6bae948acac6d3e6331923dc703b67bd69b441",
+      "content": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\5a\\5a714c925088abe9cc6e5a68de6bae948acac6d3e6331923dc703b67bd69b441"
+    },
+    "assets/projects/forensic_x_dashboard.png": {
+      "hash": "2988c928e35176cc728512431e99894137a7e9b05c90820b9754123ff1f2d127",
+      "content": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\29\\2988c928e35176cc728512431e99894137a7e9b05c90820b9754123ff1f2d127"
+    },
+    "assets/projects/forensic_x_overview.png": {
+      "hash": "df01db43b73624471ac98faedde06ee18d32782ea736da01704def95b5fe4ed5",
+      "content": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\df\\df01db43b73624471ac98faedde06ee18d32782ea736da01704def95b5fe4ed5"
+    },
+    "assets/projects/forensic_x_timeline.png": {
+      "hash": "f36d91978189425cfccc830aea3058d6dcaf5f1f7bf4801d8d4309de0ce1c238",
+      "content": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\f3\\f36d91978189425cfccc830aea3058d6dcaf5f1f7bf4801d8d4309de0ce1c238"
+    },
+    "assets/projects/null_game.svg": {
+      "hash": "70501d4d61701a039eb1c55fb3b997a56d914a85422ff0260d5b32cb96817c68",
+      "content": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\70\\70501d4d61701a039eb1c55fb3b997a56d914a85422ff0260d5b32cb96817c68"
+    },
+    "assets/projects/redzone_erosion.png": {
+      "hash": "0c4bff3b65a46efa84ca0222faee181739cd4e0d3da8e433d2113162bb3f2cda",
+      "content": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\0c\\0c4bff3b65a46efa84ca0222faee181739cd4e0d3da8e433d2113162bb3f2cda"
+    },
+    "assets/projects/redzone_seismic.png": {
+      "hash": "b89b6e1d16d46865bdd8f93ed3e599e66e038e40d4b15951fe8d422312c2c7dd",
+      "content": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\b8\\b89b6e1d16d46865bdd8f93ed3e599e66e038e40d4b15951fe8d422312c2c7dd"
+    },
+    "assets/projects/stivium_logo.svg": {
+      "hash": "f6cf7b0fb9737deea13ee48e62013a35f355ec613b199de5a6cf52eb07885185",
+      "content": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\f6\\f6cf7b0fb9737deea13ee48e62013a35f355ec613b199de5a6cf52eb07885185"
+    },
+    "assets/projects/suraksha_architecture.png": {
+      "hash": "4326a29fb4cf958f47762eb04414c3f9b7511e8ef66cc1c01764895dd09575da",
+      "content": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\43\\4326a29fb4cf958f47762eb04414c3f9b7511e8ef66cc1c01764895dd09575da"
+    },
+    "assets/projects/suraksha_workflow.png": {
+      "hash": "5070b375cf064875f36e33ba40305860cd8e4b26d1d27ddd41f64e940bca675f",
+      "content": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\50\\5070b375cf064875f36e33ba40305860cd8e4b26d1d27ddd41f64e940bca675f"
     }
   },
   "revisions": {
@@ -1068,6 +1112,80 @@
           "after": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\23\\236cdf2590582c9a09d86cd4bff189347079ac43b5d9344a3c281f7f65bfdc28"
         }
       }
+    },
+    "1b24d414-4def-4894-a1ff-131c1d7dbac6": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792849906372,
+      "endedAt": 1792849907939,
+      "files": {
+        "assets/images/mayank_halftone_portrait.webp": {
+          "before": null,
+          "after": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\9e\\9ec5312202dbb59fd2d2099a44ed87a91a9f6238231e8574ebc05b752e70f366"
+        },
+        "assets/projects/eventtwin_zonemap.png": {
+          "before": null,
+          "after": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\5a\\5a714c925088abe9cc6e5a68de6bae948acac6d3e6331923dc703b67bd69b441"
+        },
+        "assets/projects/forensic_x_dashboard.png": {
+          "before": null,
+          "after": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\29\\2988c928e35176cc728512431e99894137a7e9b05c90820b9754123ff1f2d127"
+        },
+        "assets/projects/forensic_x_overview.png": {
+          "before": null,
+          "after": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\df\\df01db43b73624471ac98faedde06ee18d32782ea736da01704def95b5fe4ed5"
+        },
+        "assets/projects/forensic_x_timeline.png": {
+          "before": null,
+          "after": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\f3\\f36d91978189425cfccc830aea3058d6dcaf5f1f7bf4801d8d4309de0ce1c238"
+        },
+        "assets/projects/null_game.svg": {
+          "before": null,
+          "after": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\70\\70501d4d61701a039eb1c55fb3b997a56d914a85422ff0260d5b32cb96817c68"
+        },
+        "assets/projects/redzone_erosion.png": {
+          "before": null,
+          "after": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\0c\\0c4bff3b65a46efa84ca0222faee181739cd4e0d3da8e433d2113162bb3f2cda"
+        },
+        "assets/projects/redzone_seismic.png": {
+          "before": null,
+          "after": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\b8\\b89b6e1d16d46865bdd8f93ed3e599e66e038e40d4b15951fe8d422312c2c7dd"
+        },
+        "assets/projects/stivium_logo.svg": {
+          "before": null,
+          "after": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\f6\\f6cf7b0fb9737deea13ee48e62013a35f355ec613b199de5a6cf52eb07885185"
+        },
+        "assets/projects/suraksha_architecture.png": {
+          "before": null,
+          "after": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\43\\4326a29fb4cf958f47762eb04414c3f9b7511e8ef66cc1c01764895dd09575da"
+        },
+        "assets/projects/suraksha_workflow.png": {
+          "before": null,
+          "after": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\50\\5070b375cf064875f36e33ba40305860cd8e4b26d1d27ddd41f64e940bca675f"
+        },
+        "index.html": {
+          "before": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\23\\236cdf2590582c9a09d86cd4bff189347079ac43b5d9344a3c281f7f65bfdc28",
+          "after": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\2f\\2fd975e1848ce62eac82ad21d9bc65aeb35e149c5559df0e1253ee55088170b1"
+        }
+      }
+    },
+    "bbcb0d0b-01a4-4b37-aa6e-7eb8e6dd84c0": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792849981062,
+      "endedAt": 1792849981064,
+      "files": {
+        "index.html": {
+          "before": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\2f\\2fd975e1848ce62eac82ad21d9bc65aeb35e149c5559df0e1253ee55088170b1",
+          "after": "C:\\Users\\PC\\.cache\\hyperframes\\history\\f67cbe8b-8327-41be-a0ce-908a47cae6d0\\blobs\\c5\\c5cba2932949016bd4cf83571d1a24b312029de3d1d07ead25f149f2d84d476f"
+        }
+      }
     }
   },
   "checks": {
@@ -1110,7 +1228,6 @@
         {
           "id": "75a7d9bf-6bc8-4a13-be72-5ba43702a467",
           "scope": "project",
-          "report": "D:\\Projects\\3d-portfolio\\brag-output\\composition\\.hyperframes\\artifacts\\checks\\75a7d9bf-6bc8-4a13-be72-5ba43702a467.json",
           "metadata": {
             "ok": true,
             "browserSkipped": false,
@@ -1132,7 +1249,9 @@
           "revision": "fce09c7e-a5fa-480d-b578-d160b4a9f87f",
           "inputFingerprint": "9a5e9afc55800a9b3f157a6f56d23bae1f79d8408274974de395ca1b2bc7991c",
           "inputScope": "local-project-files",
-          "attribution": "recorded-revision"
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "71efa3cf-408a-4607-b589-9666ac4fcec6"
         }
       ],
       "fc1bab8f-f3aa-4fe2-8ab3-efd9564ad6a7": [
@@ -1223,6 +1342,36 @@
           "inputScope": "local-project-files",
           "attribution": "recorded-revision"
         }
+      ],
+      "1b24d414-4def-4894-a1ff-131c1d7dbac6": [
+        {
+          "id": "8af169ac-5b51-4921-a583-8ee8c5c13a76",
+          "scope": "project",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1792849923453,
+          "contentHash": "4704a602375e7d3b7bdf9254533060bc7fcd843cf201e97905dd578cde1bf5ed",
+          "revision": "1b24d414-4def-4894-a1ff-131c1d7dbac6",
+          "inputFingerprint": "853f25ac56345e7b624a9cfb008f47c1c8d54e6b687e7c46818e3aca61c5c18c",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "71efa3cf-408a-4607-b589-9666ac4fcec6"
+        }
       ]
     },
     "unversioned": [
@@ -1262,15 +1411,15 @@
   },
   "renders": {
     "latest": {
-      "id": "d44ee532-3146-4336-9c0a-b19bb3fce61e",
-      "completedAt": 1792843725093,
+      "id": "71efa3cf-408a-4607-b589-9666ac4fcec6",
+      "completedAt": 1792850032766,
       "output": "D:\\Projects\\3d-portfolio\\brag-output\\brag.mp4",
       "status": "completed",
-      "revision": "e667409b-fb9f-4a9e-a933-c9414ddd9a86"
+      "revision": "bbcb0d0b-01a4-4b37-aa6e-7eb8e6dd84c0"
     },
     "retainedRevisions": [
-      "e667409b-fb9f-4a9e-a933-c9414ddd9a86",
-      "fce09c7e-a5fa-480d-b578-d160b4a9f87f"
+      "bbcb0d0b-01a4-4b37-aa6e-7eb8e6dd84c0",
+      "e667409b-fb9f-4a9e-a933-c9414ddd9a86"
     ]
   },
   "pendingArtifactCleanup": []

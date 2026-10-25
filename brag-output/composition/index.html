@@ -17,9 +17,9 @@
       :root {
         --bg: #030712;
         --surface: #0b1120;
-        --surface-glass: rgba(15, 23, 42, 0.8);
+        --surface-glass: rgba(15, 23, 42, 0.88);
         --border: #1e293b;
-        --border-glow: rgba(56, 189, 248, 0.4);
+        --border-glow: rgba(56, 189, 248, 0.45);
         --text-bright: #f8fafc;
         --text-muted: #94a3b8;
         --cyan: #38bdf8;
@@ -63,7 +63,7 @@
         pointer-events: none;
       }
 
-      /* Subtle space grid and ambient particle backdrop */
+      /* Space Backdrop */
       .space-grid {
         position: absolute;
         inset: 0;
@@ -90,7 +90,7 @@
         z-index: 2;
       }
 
-      /* Scene Clips */
+      /* Scene Clips & Common Layout */
       .clip {
         position: absolute;
         top: 0;
@@ -100,18 +100,17 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 90px 140px;
+        padding: 80px 120px;
         z-index: 20;
       }
 
-      /* Kinetic Typography & Badges */
       .badge {
         display: inline-flex;
         align-items: center;
         gap: 10px;
         padding: 8px 22px;
         border-radius: 9999px;
-        background: rgba(15, 23, 42, 0.85);
+        background: rgba(15, 23, 42, 0.9);
         border: 1px solid var(--border-glow);
         color: var(--cyan);
         font-family: var(--font-mono);
@@ -119,7 +118,7 @@
         font-weight: 700;
         letter-spacing: 0.15em;
         text-transform: uppercase;
-        margin-bottom: 24px;
+        margin-bottom: 22px;
         width: fit-content;
         box-shadow: 0 0 25px var(--cyan-glow);
         backdrop-filter: blur(12px);
@@ -137,181 +136,193 @@
         display: block;
       }
       .kinetic-title {
-        font-size: 70px;
+        font-size: 68px;
         font-weight: 900;
         letter-spacing: -0.03em;
         line-height: 1.15;
         color: var(--text-bright);
       }
-      .kinetic-sub {
-        font-size: 24px;
-        font-weight: 500;
-        color: var(--text-muted);
-        line-height: 1.5;
-        max-width: 720px;
-        margin-top: 24px;
-      }
-
-      /* SCENE 1: HOOK (Left text, 3D Keyboard on Right) */
-      #scene-1 .s1-content {
-        max-width: 860px;
-        z-index: 30;
-      }
-      #scene-1 .hook-strike {
-        text-decoration: line-through;
-        color: #64748b;
-        margin-right: 12px;
-      }
-      #scene-1 .hook-highlight {
+      .kinetic-title-sub {
         color: #ffffff;
         background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
-      .s1-key-hud {
+      .kinetic-desc {
+        font-size: 22px;
+        font-weight: 500;
+        color: var(--text-muted);
+        line-height: 1.5;
+        max-width: 760px;
+        margin-top: 20px;
+      }
+
+      .pill-feature-bar {
         display: inline-flex;
         align-items: center;
         gap: 12px;
-        margin-top: 36px;
+        margin-top: 32px;
         padding: 12px 24px;
         border-radius: 12px;
-        background: rgba(15, 23, 42, 0.8);
-        border: 1px solid rgba(56, 189, 248, 0.3);
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(56, 189, 248, 0.35);
         font-family: var(--font-mono);
-        font-size: 16px;
+        font-size: 15px;
         color: var(--cyan);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
       }
 
-      /* SCENE 2: INTERACTIVE SKILL MATRIX */
-      #scene-2 {
-        align-items: center;
-        text-align: center;
-        padding-top: 60px;
-      }
-      #scene-2 .s2-header {
+      /* SCENE 1: SAFE AREA (Left: Typography, Right: 3D Keyboard) */
+      #scene-1 .s1-container {
+        width: 840px;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        margin-bottom: 20px;
         z-index: 30;
       }
-      #scene-2 .s2-title {
-        font-size: 58px;
-        font-weight: 800;
-        letter-spacing: -0.02em;
+      #scene-1 .s1-kicker {
+        font-family: var(--font-mono);
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--orange);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 16px;
       }
-      .s2-hud-container {
-        position: absolute;
-        bottom: 80px;
-        left: 140px;
-        right: 140px;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
+      #scene-1 .s1-strike {
+        text-decoration: line-through;
+        color: #64748b;
+        margin-right: 12px;
+      }
+
+      /* SCENE 2: SKILLS & TERMINAL (Left: Keyboard, Right: Stack Showcase) */
+      #scene-2 {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+      }
+      .s2-stack-card {
+        width: 780px;
+        background: rgba(15, 23, 42, 0.92);
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        border-radius: 20px;
+        padding: 36px 36px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(16px);
+        display: flex;
+        flex-direction: column;
         gap: 20px;
         z-index: 30;
       }
-      .hud-card {
-        background: rgba(15, 23, 42, 0.85);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 16px;
-        padding: 22px 20px;
-        text-align: left;
-        backdrop-filter: blur(16px);
-        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
+      .s2-card-title {
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--text-bright);
+        letter-spacing: -0.02em;
       }
-      .hud-card-top {
+      .stack-row {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        gap: 20px;
+        padding: 16px 20px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
       }
-      .hud-key-badge {
+      .stack-keycap-chip {
         font-family: var(--font-mono);
-        font-size: 13px;
-        font-weight: 700;
-        padding: 4px 10px;
-        border-radius: 6px;
-        background: rgba(255, 255, 255, 0.08);
-        color: var(--text-muted);
+        font-size: 14px;
+        font-weight: 800;
+        padding: 6px 14px;
+        border-radius: 8px;
+        background: rgba(15, 23, 42, 0.95);
+        border: 1px solid var(--border-glow);
+        color: var(--cyan);
       }
-      .hud-card-icon {
-        width: 32px;
-        height: 32px;
+      .stack-icon {
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
       }
-      .hud-card-name {
-        font-size: 20px;
+      .stack-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .stack-name {
+        font-size: 18px;
         font-weight: 700;
         color: var(--text-bright);
       }
-      .hud-card-desc {
-        font-size: 13px;
+      .stack-detail {
+        font-size: 14px;
         color: var(--text-muted);
-        line-height: 1.45;
+        line-height: 1.4;
       }
 
-      /* SCENE 3: VERIFIABLE ENGINEERING / FORENSIC-X */
-      #scene-3 .forensic-layout {
+      /* SCENE 3: REAL PROJECTS SHOWCASE */
+      #scene-3 .projects-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1.15fr;
         gap: 60px;
         align-items: center;
         width: 100%;
         height: 100%;
       }
-      .forensic-text {
+      .projects-copy {
         display: flex;
         flex-direction: column;
         gap: 20px;
       }
-      .forensic-title {
-        font-size: 64px;
+      .projects-title {
+        font-size: 62px;
         font-weight: 900;
         letter-spacing: -0.03em;
         line-height: 1.1;
       }
-      .forensic-desc {
+      .projects-desc {
         font-size: 20px;
         color: var(--text-muted);
-        line-height: 1.6;
-        max-width: 680px;
+        line-height: 1.55;
+        max-width: 660px;
       }
-      .forensic-stats {
-        display: flex;
-        gap: 20px;
-        margin-top: 10px;
-      }
-      .stat-card {
-        padding: 16px 24px;
-        border-radius: 14px;
-        background: rgba(15, 23, 42, 0.85);
-        border: 1px solid var(--border);
+      .project-tabs {
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: 12px;
+        margin-top: 10px;
       }
-      .stat-number {
+      .project-tab {
+        padding: 14px 20px;
+        border-radius: 12px;
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .tab-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--text-bright);
+      }
+      .tab-tag {
         font-family: var(--font-mono);
-        font-size: 26px;
-        font-weight: 800;
+        font-size: 12px;
         color: var(--cyan);
-      }
-      .stat-label {
-        font-size: 13px;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
+        background: rgba(56, 189, 248, 0.1);
+        padding: 4px 10px;
+        border-radius: 6px;
       }
 
-      /* ScrollingPreview Authentic Replication */
+      /* Authentic ScrollingPreview Frame */
       .scrolling-preview-frame {
         position: relative;
-        width: 780px;
-        height: 520px;
+        width: 820px;
+        height: 540px;
         border-radius: 20px;
         overflow: hidden;
-        border: 1px solid rgba(56, 189, 248, 0.4);
+        border: 1px solid rgba(56, 189, 248, 0.45);
         box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(56, 189, 248, 0.15);
         background-color: #0b1120;
       }
@@ -321,7 +332,7 @@
         background-image: url('assets/backgrounds/forensic-x.jpg');
         background-size: cover;
         background-position: center;
-        filter: brightness(0.7) blur(2px);
+        filter: brightness(0.65) blur(2px);
         transform: scale(1.05);
       }
       .scrolling-preview-inner {
@@ -329,15 +340,15 @@
         inset: 20px;
         border-radius: 14px;
         overflow: hidden;
-        background: rgba(11, 17, 32, 0.85);
+        background: rgba(11, 17, 32, 0.9);
         border: 1px solid rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(12px);
         display: flex;
         flex-direction: column;
       }
       .preview-browser-bar {
-        height: 38px;
-        background: rgba(15, 23, 42, 0.9);
+        height: 40px;
+        background: rgba(15, 23, 42, 0.95);
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         display: flex;
         align-items: center;
@@ -358,13 +369,13 @@
       .dot-green { background: #10b981; }
       .browser-url {
         font-family: var(--font-mono);
-        font-size: 12px;
+        font-size: 13px;
         color: var(--text-muted);
-        background: rgba(0, 0, 0, 0.3);
+        background: rgba(0, 0, 0, 0.35);
         padding: 4px 12px;
         border-radius: 6px;
         flex: 1;
-        max-width: 420px;
+        max-width: 440px;
       }
       .preview-viewport {
         position: relative;
@@ -384,19 +395,19 @@
         left: 14px;
         right: 14px;
         padding: 10px 16px;
-        background: rgba(3, 7, 18, 0.9);
-        border: 1px solid rgba(56, 189, 248, 0.3);
+        background: rgba(3, 7, 18, 0.95);
+        border: 1px solid rgba(56, 189, 248, 0.35);
         border-radius: 8px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         font-family: var(--font-mono);
-        font-size: 12px;
+        font-size: 13px;
         color: var(--cyan);
       }
 
       /* SCENE 4: INTERACTIVE RESUME CANVAS */
-      #scene-4 .resume-layout {
+      #scene-4 .resume-grid {
         display: grid;
         grid-template-columns: 1fr 1.15fr;
         gap: 70px;
@@ -404,15 +415,15 @@
         width: 100%;
         height: 100%;
       }
-      .resume-canvas-mockup {
+      .resume-mockup-frame {
         position: relative;
-        width: 840px;
-        height: 580px;
+        width: 860px;
+        height: 560px;
         border-radius: 18px;
         overflow: hidden;
         border: 1px solid rgba(255, 255, 255, 0.15);
         background: #0f172a;
-        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.75);
         display: flex;
         flex-direction: column;
       }
@@ -483,43 +494,56 @@
         font-family: var(--font-mono);
         font-size: 14px;
         font-weight: 700;
-        box-shadow: 0 0 25px rgba(255, 107, 185, 0.35);
+        box-shadow: 0 0 25px rgba(255, 107, 185, 0.4);
       }
 
-      /* SCENE 5: OUTRO & CALL TO ACTION */
+      /* SCENE 5: IDENTITY & OUTRO CARD */
       #scene-5 {
         align-items: center;
         text-align: center;
       }
+      .outro-card {
+        max-width: 960px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: rgba(15, 23, 42, 0.94);
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        border-radius: 28px;
+        padding: 50px 70px;
+        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8), 0 0 40px rgba(56, 189, 248, 0.15);
+        backdrop-filter: blur(20px);
+        z-index: 30;
+      }
       .outro-kicker {
         font-family: var(--font-mono);
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 700;
-        letter-spacing: 0.3em;
+        letter-spacing: 0.25em;
         text-transform: uppercase;
         color: var(--cyan);
-        margin-bottom: 18px;
+        margin-bottom: 14px;
       }
       .outro-headline {
-        font-size: 96px;
+        font-size: 88px;
         font-weight: 900;
         letter-spacing: -0.04em;
         line-height: 1.05;
         background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #38bdf8 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        margin-bottom: 20px;
+        margin-bottom: 16px;
       }
-      .outro-tagline {
-        font-size: 26px;
+      .outro-role {
+        font-size: 24px;
         font-weight: 600;
         color: var(--text-muted);
-        letter-spacing: 0.05em;
-        margin-bottom: 40px;
+        letter-spacing: 0.02em;
+        margin-bottom: 30px;
       }
       .outro-pills {
         display: flex;
-        gap: 20px;
+        gap: 18px;
         align-items: center;
         justify-content: center;
       }
@@ -557,7 +581,7 @@
       <div class="space-grid"></div>
       <div class="grid-lines"></div>
 
-      <!-- WebGL 3D Canvas Rendering the Authentic 30-Key Mechanical Keyboard -->
+      <!-- WebGL 3D Canvas: Exact 30-Key Mechanical Keyboard Model -->
       <canvas id="three-canvas" width="1920" height="1080"></canvas>
 
       <!-- AUDIO LAYER -->
@@ -566,113 +590,121 @@
       <audio id="sfx-key-2" src="assets/sfx/keyboard/keypress-006.wav" data-start="1.7" data-duration="0.25" preload="auto"></audio>
       <audio id="sfx-key-3" src="assets/sfx/keyboard/keypress-012.wav" data-start="4.2" data-duration="0.25" preload="auto"></audio>
       <audio id="sfx-key-4" src="assets/sfx/keyboard/keypress-018.wav" data-start="5.0" data-duration="0.25" preload="auto"></audio>
-      <audio id="sfx-switch" src="assets/sfx/ui/switch1.ogg" data-start="8.8" data-duration="0.31" preload="auto"></audio>
+      <audio id="sfx-switch" src="assets/sfx/ui/switch1.ogg" data-start="8.0" data-duration="0.31" preload="auto"></audio>
 
-      <!-- SCENE 1: HOOK (0.0s - 3.8s) -->
+      <!-- SCENE 1: IDENTITY & SIGNATURE 3D KEYBOARD (0.0s - 3.8s) -->
+      <!-- Safe Area: Left column text (0-880px), Right column keyboard (900-1920px) -->
       <div id="scene-1" class="clip" data-start="0.0" data-duration="3.8" data-track-index="0">
-        <div class="s1-content">
+        <div class="s1-container">
           <div class="badge" data-layout-ignore="true">
             <span class="badge-dot"></span>
             Mayank Dabas · Portfolio
           </div>
+          <div class="s1-kicker" data-layout-ignore="true">AI &amp; ML Engineer · Systems Developer</div>
           <div class="mask-wrapper">
             <h1 class="kinetic-title" id="s1-t1">
-              <span class="hook-strike">Boring static resumes</span>
+              Building Verifiable Systems.
             </h1>
           </div>
           <div class="mask-wrapper">
-            <h1 class="kinetic-title" id="s1-t2">
-              are officially dead.
+            <h1 class="kinetic-title kinetic-title-sub" id="s1-t2">
+              Applied AI &amp; Interactive 3D.
             </h1>
           </div>
-          <div class="mask-wrapper">
-            <h1 class="kinetic-title hook-highlight" id="s1-t3">
-              Meet the 30-Key 3D Terminal.
-            </h1>
-          </div>
-          <div class="s1-key-hud" id="s1-hud">
-            <span>⌨️ Procedural 3D Case</span>
+          <p class="kinetic-desc" id="s1-desc">
+            Dual Degree in AI &amp; ML at USAR, GGSIPU.
+          </p>
+          <div class="pill-feature-bar" id="s1-hud">
+            <span>⌨️ 30-Key Hardware Model</span>
             <span>·</span>
-            <span>30 Interactive Skill Keys</span>
+            <span>Press Any Key</span>
             <span>·</span>
             <span>Real Mechanical Physics</span>
           </div>
         </div>
       </div>
 
-      <!-- SCENE 2: INTERACTIVE SKILL MATRIX (3.8s - 8.8s) -->
-      <div id="scene-2" class="clip" data-start="3.8" data-duration="5.0" data-track-index="0">
-        <div class="s2-header">
-          <div class="badge" data-layout-ignore="true">
+      <!-- SCENE 2: TECHNICAL STACK & INTERACTIVE MATRIX (3.8s - 8.0s) -->
+      <!-- Safe Area: Left column keyboard (100-950px), Right column Stack Card (1040-1800px) -->
+      <div id="scene-2" class="clip" data-start="3.8" data-duration="4.2" data-track-index="0">
+        <div class="s2-stack-card" id="s2-card">
+          <div class="badge" data-layout-ignore="true" style="margin-bottom: 0;">
             <span class="badge-dot"></span>
-            Three.js · Spline · Chibi Runtime
+            Technical Stack &amp; Skills
           </div>
-          <h2 class="s2-title">Every Key Is A Living Skill</h2>
-        </div>
-        <div class="s2-hud-container">
-          <div class="hud-card" id="hud-card-1">
-            <div class="hud-card-top">
-              <span class="hud-key-badge">Key Q</span>
-              <img src="assets/skills/python.svg" class="hud-card-icon" alt="Python" />
+          <h2 class="s2-card-title">Every Keycap Mapped to Real Tech</h2>
+          
+          <div class="stack-row" id="s2-row-1">
+            <span class="stack-keycap-chip">Key Q</span>
+            <img src="assets/skills/python.svg" class="stack-icon" alt="Python" />
+            <div class="stack-info">
+              <span class="stack-name">Python &amp; FastAPI</span>
+              <span class="stack-detail" data-layout-ignore="true">Verifiable AI/ML pipelines and cryptographic custody ledgers</span>
             </div>
-            <div class="hud-card-name">Python</div>
-            <div class="hud-card-desc">Verifiable AI & ML systems and FastAPI pipelines</div>
           </div>
-          <div class="hud-card" id="hud-card-2">
-            <div class="hud-card-top">
-              <span class="hud-key-badge">Key Y</span>
-              <img src="assets/skills/rust.svg" class="hud-card-icon" alt="Rust" />
+
+          <div class="stack-row" id="s2-row-2">
+            <span class="stack-keycap-chip">Key Y</span>
+            <img src="assets/skills/rust.svg" class="stack-icon" alt="Rust" />
+            <div class="stack-info">
+              <span class="stack-name">Rust &amp; Tauri</span>
+              <span class="stack-detail" data-layout-ignore="true">Native memory-efficient core for desktop Stivium IDE</span>
             </div>
-            <div class="hud-card-name">Rust</div>
-            <div class="hud-card-desc">High-performance core for desktop Stivium IDE</div>
           </div>
-          <div class="hud-card" id="hud-card-3">
-            <div class="hud-card-top">
-              <span class="hud-key-badge">Key F</span>
-              <img src="assets/skills/gemini-api.svg" class="hud-card-icon" alt="Gemini" />
+
+          <div class="stack-row" id="s2-row-3">
+            <span class="stack-keycap-chip">Key F</span>
+            <img src="assets/skills/gemini-api.svg" class="stack-icon" alt="Gemini" />
+            <div class="stack-info">
+              <span class="stack-name">Gemini API &amp; Agentic AI</span>
+              <span class="stack-detail" data-layout-ignore="true">Multimodal reasoning agents &amp; Sarvam voice synthesis</span>
             </div>
-            <div class="hud-card-name">Gemini API</div>
-            <div class="hud-card-desc">Multimodal intelligence & autonomous reasoning agents</div>
           </div>
-          <div class="hud-card" id="hud-card-4">
-            <div class="hud-card-top">
-              <span class="hud-key-badge">Key I</span>
-              <img src="assets/skills/react.svg" class="hud-card-icon" alt="React" />
+
+          <div class="stack-row" id="s2-row-4">
+            <span class="stack-keycap-chip">Key I</span>
+            <img src="assets/skills/react.svg" class="stack-icon" alt="React" />
+            <div class="stack-info">
+              <span class="stack-name">React, Three.js &amp; Next.js 16</span>
+              <span class="stack-detail" data-layout-ignore="true">60 FPS WebGL 3D runtimes and tactile web interfaces</span>
             </div>
-            <div class="hud-card-name">React & Three.js</div>
-            <div class="hud-card-desc">60 FPS interactive WebGL 3D experiences</div>
           </div>
         </div>
       </div>
 
-      <!-- SCENE 3: VERIFIABLE SYSTEMS / FORENSIC-X (8.8s - 13.5s) -->
-      <div id="scene-3" class="clip" data-start="8.8" data-duration="4.7" data-track-index="0">
-        <div class="forensic-layout">
-          <div class="forensic-text">
+      <!-- SCENE 3: REAL PROJECTS SHOWCASE (8.0s - 13.0s) -->
+      <!-- Safe Area: Left column description (0-720px), Right column ScrollingPreview (760-1800px) -->
+      <div id="scene-3" class="clip" data-start="8.0" data-duration="5.0" data-track-index="0">
+        <div class="projects-grid">
+          <div class="projects-copy">
             <div class="badge" data-layout-ignore="true">
               <span class="badge-dot"></span>
-              Hackathon SUTRAM 2026 · NFSU Nationals
+              Verified Engineering Impact
             </div>
-            <h2 class="forensic-title">
-              Not Just Flashy 3D.<br />
-              Verifiable Systems.
+            <h2 class="projects-title">
+              Real Systems.<br />
+              Court-Admissible &amp; Impactful.
             </h2>
-            <p class="forensic-desc">
-              FORENSIC-X implements cryptographically signed SHA-256 evidence ledgers with court-admissible forensic proof.
+            <p class="projects-desc">
+              From forensic custody matrices to national disaster decision systems built for hackathon finals.
             </p>
-            <div class="forensic-stats">
-              <div class="stat-card">
-                <span class="stat-number">SHA-256</span>
-                <span class="stat-label">Custody Ledger</span>
+            <div class="project-tabs">
+              <div class="project-tab">
+                <span class="tab-title">🛡️ FORENSIC-X</span>
+                <span class="tab-tag" data-layout-ignore="true">SUTRAM 2026 Nationals (NFSU)</span>
               </div>
-              <div class="stat-card">
-                <span class="stat-number">19 Suites</span>
-                <span class="stat-label">Automated Verified Tests</span>
+              <div class="project-tab">
+                <span class="tab-title">🌊 REDZONE</span>
+                <span class="tab-tag" data-layout-ignore="true">SIH 2026 National Finalist</span>
+              </div>
+              <div class="project-tab">
+                <span class="tab-title">⚙️ Stivium IDE</span>
+                <span class="tab-tag" data-layout-ignore="true">Rust + Tauri Sub-60MB Editor</span>
               </div>
             </div>
           </div>
 
-          <!-- Authentic ScrollingPreview component instance -->
+          <!-- Authentic ScrollingPreview component -->
           <div class="scrolling-preview-frame" id="s3-preview-frame">
             <div class="scrolling-preview-bg" data-layout-allow-overflow="true" data-layout-ignore="true"></div>
             <div class="scrolling-preview-inner">
@@ -685,10 +717,10 @@
                 <div class="browser-url" data-layout-ignore="true">https://forensic-x.platform/audit/ledger-0824</div>
               </div>
               <div class="preview-viewport">
-                <img src="assets/images/forensic_x_dashboard.png" class="preview-scroll-img" id="s3-scroll-img" alt="FORENSIC-X Dashboard" data-layout-allow-overflow="true" />
+                <img src="assets/projects/forensic_x_dashboard.png" class="preview-scroll-img" id="s3-scroll-img" alt="FORENSIC-X Dashboard" data-layout-allow-overflow="true" />
                 <div class="preview-telemetry-overlay" data-layout-ignore="true">
-                  <span>LEDGER HASH: e3b0c44298fc1c14...</span>
-                  <span>STATUS: COURT-VERIFIED</span>
+                  <span>SHA-256 LEDGER: e3b0c44298fc1c14...</span>
+                  <span>COURT-VERIFIED</span>
                 </div>
               </div>
             </div>
@@ -696,30 +728,31 @@
         </div>
       </div>
 
-      <!-- SCENE 4: INTERACTIVE RESUME CANVAS (13.5s - 17.2s) -->
-      <div id="scene-4" class="clip" data-start="13.5" data-duration="3.7" data-track-index="0">
-        <div class="resume-layout">
-          <div class="resume-text">
+      <!-- SCENE 4: INTERACTIVE RESUME CANVAS (13.0s - 16.8s) -->
+      <!-- Safe Area: Left column text, Right column Interactive Doodle Mockup -->
+      <div id="scene-4" class="clip" data-start="13.0" data-duration="3.8" data-track-index="0">
+        <div class="resume-grid">
+          <div class="projects-copy">
             <div class="badge" data-layout-ignore="true">
               <span class="badge-dot"></span>
-              Interactive At /resume
+              Live At /resume
             </div>
-            <h2 class="forensic-title">
+            <h2 class="projects-title">
               Recruiters Can Literally Doodle on It
             </h2>
-            <p class="forensic-desc">
+            <p class="projects-desc">
               Visitors draw, highlight, annotate directly on his résumé, and export custom signed copies.
             </p>
-            <div class="s1-key-hud" style="margin-top: 24px;">
-              <span>✏️ Live Drawing</span>
+            <div class="pill-feature-bar" style="margin-top: 10px;">
+              <span>✏️ Live Pen</span>
               <span>·</span>
-              <span>🎨 Color Palettes</span>
+              <span>🎨 Palette</span>
               <span>·</span>
               <span>📥 Export PDF</span>
             </div>
           </div>
 
-          <div class="resume-canvas-mockup" id="s4-canvas-frame">
+          <div class="resume-mockup-frame" id="s4-canvas-frame">
             <div class="resume-toolbar">
               <div class="tool-group">
                 <div class="tool-btn">✏️ Doodle Mode Active</div>
@@ -733,34 +766,34 @@
             </div>
             <div class="resume-view">
               <img src="assets/images/live_resume.png" class="resume-img" alt="Mayank Dabas Resume" />
-              <!-- Hand-drawn SVG doodle highlighter and arrow -->
-              <svg class="doodle-svg-layer" viewBox="0 0 840 532">
-                <!-- Highlight over education -->
-                <path id="doodle-highlight" d="M 60 170 L 460 170" fill="none" stroke="#ff7043" stroke-width="24" stroke-linecap="round" stroke-opacity="0.35" stroke-dasharray="400" stroke-dashoffset="400" />
-                <!-- Handwritten circle / checkmark -->
-                <path id="doodle-circle" d="M 45 130 C 40 80, 220 70, 230 110 C 240 145, 100 160, 50 140" fill="none" stroke="#ff6bb9" stroke-width="4" stroke-linecap="round" stroke-dasharray="600" stroke-dashoffset="600" />
+              <svg class="doodle-svg-layer" viewBox="0 0 860 512">
+                <path id="doodle-highlight" d="M 60 165 L 460 165" fill="none" stroke="#ff7043" stroke-width="24" stroke-linecap="round" stroke-opacity="0.38" stroke-dasharray="400" stroke-dashoffset="400" />
+                <path id="doodle-circle" d="M 45 125 C 40 75, 220 65, 230 105 C 240 140, 100 155, 50 135" fill="none" stroke="#ff6bb9" stroke-width="4" stroke-linecap="round" stroke-dasharray="600" stroke-dashoffset="600" />
               </svg>
-              <div class="doodle-annotation-card" id="s4-doodle-card">
-                ✨ Hard Tech & Verifiable Systems Verified!
+              <div class="doodle-annotation-card" id="s4-doodle-card" data-layout-ignore="true">
+                ✨ Hard Tech &amp; Verifiable Systems Verified!
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- SCENE 5: OUTRO & CALL TO ACTION (17.2s - 20.0s) -->
-      <div id="scene-5" class="clip" data-start="17.2" data-duration="2.8" data-track-index="0">
-        <div class="outro-kicker" data-layout-ignore="true">Interactive 3D Developer Portfolio</div>
-        <h1 class="outro-headline" id="s5-name">MAYANK DABAS</h1>
-        <div class="outro-tagline" data-layout-ignore="true">
-          AI & ML Engineer · Verifiable Systems · 3D Web
-        </div>
-        <div class="outro-pills" id="s5-pills">
-          <div class="pill-primary">
-            <span>🚀 3d-portfolio-mu-tan.vercel.app</span>
+      <!-- SCENE 5: IDENTITY & OUTRO CARD (16.8s - 20.0s) -->
+      <!-- Safe Area: Centered Outro Card, Keyboard floating safely at bottom -->
+      <div id="scene-5" class="clip" data-start="16.8" data-duration="3.2" data-track-index="0">
+        <div class="outro-card" id="s5-card">
+          <div class="outro-kicker" data-layout-ignore="true">AI &amp; ML Student · Systems &amp; 3D Developer</div>
+          <h1 class="outro-headline" id="s5-name">MAYANK DABAS</h1>
+          <div class="outro-role" data-layout-ignore="true">
+            USAR, GGSIPU · SIH 2026 Finalist · SUTRAM 2026 Nationals
           </div>
-          <div class="pill-secondary">
-            <span>github.com/Mayank32935M/3d-portfolio</span>
+          <div class="outro-pills" id="s5-pills">
+            <div class="pill-primary">
+              <span>🚀 3d-portfolio-mu-tan.vercel.app</span>
+            </div>
+            <div class="pill-secondary">
+              <span>github.com/Mayank32935M/3d-portfolio</span>
+            </div>
           </div>
         </div>
       </div>
@@ -768,7 +801,7 @@
 
     <script>
       // ----------------------------------------------------
-      // 1. DATA: 30 SKILLS (6 columns x 5 rows)
+      // 1. DATA: 30 SKILLS MAPPING (6 columns x 5 rows)
       // ----------------------------------------------------
       const SKILLS_DATA = [
         { name: "python", label: "Python", color: "#2b5b84", icon: "assets/skills/python.svg", shortcut: "KeyQ" },
@@ -803,7 +836,6 @@
         { name: "c", label: "C Lang", color: "#4a5a8a", icon: "assets/skills/c.svg", shortcut: "Slash" }
       ];
 
-      // Geometry constants from src/components/keyboard/scene.ts
       const KIT = {
         pitch: 1.04468,
         keyY: 1.29117,
@@ -817,7 +849,7 @@
       };
 
       // ----------------------------------------------------
-      // 2. THREE.JS INITIALIZATION & 3D KEYBOARD SETUP
+      // 2. THREE.JS INITIALIZATION & AUTHENTIC KEYBOARD
       // ----------------------------------------------------
       const canvas = document.getElementById("three-canvas");
       const renderer = new THREE.WebGLRenderer({
@@ -836,7 +868,7 @@
       camera.position.set(-9, 9.6, 9);
       camera.lookAt(0, 0.6, 0);
 
-      // Lights matching scene.ts
+      // Lights matching scene.ts exactly
       const keyLight = new THREE.DirectionalLight(0xffffff, 2.8);
       keyLight.position.set(-6, 8, -3);
       scene.add(keyLight);
@@ -848,7 +880,6 @@
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
       scene.add(ambientLight);
 
-      // Hierarchical groups
       const keyboardRoot = new THREE.Group();
       scene.add(keyboardRoot);
 
@@ -895,7 +926,7 @@
           keyboardLayout.position.set(0, -keyboardCenterY * fit, 0);
           keyboardLayout.scale.set(fit, fit, fit);
 
-          // 9-Piece Sliced Case
+          // 9-Piece Sliced Case with #171819 finish
           const caseMaterial = new THREE.MeshStandardMaterial({
             color: 0x171819,
             roughness: 0.64,
@@ -949,7 +980,7 @@
               cap.material = capMat;
               motion.add(cap);
 
-              // SVG Logo Texture on Keycap Top
+              // Vector SVG emblem texture on keycap top
               const logoTex = textureLoader.load(skill.icon);
               logoTex.colorSpace = THREE.SRGBColorSpace;
               const logoMat = new THREE.MeshBasicMaterial({
@@ -986,22 +1017,23 @@
       }
 
       // ----------------------------------------------------
-      // 3. GSAP ANIMATION TIMELINE (0.0s to 20.0s)
+      // 3. GSAP ANIMATION TIMELINE & SAFE AREAS
       // ----------------------------------------------------
       window.__timelines = window.__timelines || {};
       const tl = gsap.timeline({ paused: true });
       window.__timelines["main"] = tl;
       tl.eventCallback("onUpdate", renderThree);
 
-      // Keyboard coordinate state objects for GSAP tweening
+      // Keyboard coordinate state
+      // Scene 1: Anchored right (x: 2.1, y: -0.15) -> No collision with left text (0-880px)
       const kbPose = {
-        x: 1.85,
-        y: -0.2,
-        z: 0.2,
+        x: 2.1,
+        y: -0.15,
+        z: 0.1,
         rotX: 0.12,
         rotY: -Math.PI / 6,
-        rotZ: 0.12,
-        scale: 0.82,
+        rotZ: 0.1,
+        scale: 0.78,
         opacity: 1
       };
 
@@ -1015,39 +1047,38 @@
 
       // Initial Element States
       gsap.set("#scene-1", { opacity: 1 });
-      gsap.set("#s1-t1", { y: 60, opacity: 0 });
-      gsap.set("#s1-t2", { y: 60, opacity: 0 });
-      gsap.set("#s1-t3", { y: 60, opacity: 0 });
+      gsap.set("#s1-t1", { y: 50, opacity: 0 });
+      gsap.set("#s1-t2", { y: 50, opacity: 0 });
+      gsap.set("#s1-desc", { y: 30, opacity: 0 });
       gsap.set("#s1-hud", { y: 30, opacity: 0 });
 
       gsap.set("#scene-2", { opacity: 0 });
-      gsap.set(".hud-card", { opacity: 0, y: 50, scale: 0.9 });
+      gsap.set("#s2-card", { opacity: 0, x: 80, scale: 0.95 });
 
       gsap.set("#scene-3", { opacity: 0 });
-      gsap.set(".forensic-text", { opacity: 0, x: -70 });
+      gsap.set(".projects-copy", { opacity: 0, x: -70 });
       gsap.set("#s3-preview-frame", { opacity: 0, x: 70, scale: 0.95 });
       gsap.set("#s3-scroll-img", { y: 0 });
 
       gsap.set("#scene-4", { opacity: 0 });
-      gsap.set(".resume-text", { opacity: 0, x: -60 });
+      gsap.set(".resume-grid .projects-copy", { opacity: 0, x: -60 });
       gsap.set("#s4-canvas-frame", { opacity: 0, x: 60, scale: 0.95 });
       gsap.set("#doodle-highlight", { strokeDashoffset: 400 });
       gsap.set("#doodle-circle", { strokeDashoffset: 600 });
       gsap.set("#s4-doodle-card", { opacity: 0, scale: 0.5, rotation: -8 });
 
       gsap.set("#scene-5", { opacity: 0 });
-      gsap.set("#s5-name", { opacity: 0, scale: 0.88 });
-      gsap.set("#s5-pills", { opacity: 0, y: 30 });
+      gsap.set("#s5-card", { opacity: 0, scale: 0.9, y: 40 });
 
       // ====================================================
-      // SCENE 1 (0.0s - 3.8s): The Hook & 3D Keyboard Introduction
+      // SCENE 1 (0.0s - 3.8s): Identity & Signature 3D Keyboard
       // ====================================================
       tl.to("#s1-t1", { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 0.2);
       tl.to("#s1-t2", { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 0.5);
-      tl.to("#s1-t3", { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, 0.8);
-      tl.to("#s1-hud", { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" }, 1.2);
+      tl.to("#s1-desc", { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" }, 0.8);
+      tl.to("#s1-hud", { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" }, 1.1);
 
-      // Keypress 1: Key Q (Python) presses on beat at 1.0s
+      // Keypress 1: Key Q (Python) at 1.0s
       tl.to(kbPose, {
         onStart: () => {
           if (keyMeshes[0]) {
@@ -1067,7 +1098,7 @@
         duration: 0.2
       }, 1.15);
 
-      // Keypress 2: Key W (TypeScript) presses on beat at 1.7s
+      // Keypress 2: Key W (TypeScript) at 1.7s
       tl.to(kbPose, {
         onStart: () => {
           if (keyMeshes[1]) {
@@ -1087,38 +1118,39 @@
         duration: 0.2
       }, 1.85);
 
-      // Subtle float on 3D keyboard in Scene 1
+      // Gentle isometric drift in Scene 1
       tl.to(kbPose, {
         rotY: -Math.PI / 6 + 0.06,
-        y: -0.15,
-        duration: 2.0,
+        y: -0.12,
+        duration: 2.2,
         ease: "sine.inOut",
         onUpdate: updateKeyboardPose
-      }, 1.0);
+      }, 0.8);
 
       tl.to("#scene-1", { opacity: 0, duration: 0.35 }, 3.5);
 
       // ====================================================
-      // SCENE 2 (3.8s - 8.8s): Interactive Skill Matrix
+      // SCENE 2 (3.8s - 8.0s): Technical Stack & Left Keyboard
       // ====================================================
       tl.to("#scene-2", { opacity: 1, duration: 0.3 }, 3.8);
 
-      // 3D Keyboard glides smoothly to center front
+      // 3D Keyboard glides smoothly to LEFT column safe area
       tl.to(kbPose, {
-        x: 0,
-        y: -0.32,
-        z: 0.5,
-        rotX: 0.24,
-        rotY: Math.PI / 12,
+        x: -1.3,
+        y: -0.22,
+        z: -0.2,
+        rotX: 0.22,
+        rotY: Math.PI / 10,
         rotZ: 0.04,
-        scale: 1.12,
+        scale: 0.95,
         duration: 0.9,
         ease: "power2.out",
         onUpdate: updateKeyboardPose
       }, 3.8);
 
-      // Four Key Presses on beat with glowing HUD cards
-      // Key 1: Python (index 0) at 4.2s
+      tl.to("#s2-card", { opacity: 1, x: 0, scale: 1, duration: 0.7, ease: "power3.out" }, 4.0);
+
+      // Key 1: Python at 4.2s
       tl.to(kbPose, {
         onStart: () => {
           if (keyMeshes[0]) {
@@ -1128,7 +1160,11 @@
         },
         duration: 0.15
       }, 4.2);
-      tl.to("#hud-card-1", { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, 4.3);
+      tl.to("#s2-row-1", { 
+        backgroundColor: "rgba(43, 91, 132, 0.25)", 
+        borderColor: "rgba(56, 189, 248, 0.6)", 
+        duration: 0.25 
+      }, 4.25);
       tl.to(kbPose, {
         onStart: () => {
           if (keyMeshes[0]) {
@@ -1139,7 +1175,7 @@
         duration: 0.2
       }, 4.4);
 
-      // Key 2: Rust (index 5) at 5.0s
+      // Key 2: Rust at 5.0s
       tl.to(kbPose, {
         onStart: () => {
           if (keyMeshes[5]) {
@@ -1149,7 +1185,11 @@
         },
         duration: 0.15
       }, 5.0);
-      tl.to("#hud-card-2", { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, 5.1);
+      tl.to("#s2-row-2", { 
+        backgroundColor: "rgba(163, 82, 39, 0.25)", 
+        borderColor: "rgba(249, 115, 22, 0.6)", 
+        duration: 0.25 
+      }, 5.05);
       tl.to(kbPose, {
         onStart: () => {
           if (keyMeshes[5]) {
@@ -1160,7 +1200,7 @@
         duration: 0.2
       }, 5.2);
 
-      // Key 3: Gemini API (index 13) at 5.8s
+      // Key 3: Gemini API at 5.8s
       tl.to(kbPose, {
         onStart: () => {
           if (keyMeshes[13]) {
@@ -1170,7 +1210,11 @@
         },
         duration: 0.15
       }, 5.8);
-      tl.to("#hud-card-3", { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, 5.9);
+      tl.to("#s2-row-3", { 
+        backgroundColor: "rgba(34, 100, 209, 0.25)", 
+        borderColor: "rgba(192, 132, 252, 0.6)", 
+        duration: 0.25 
+      }, 5.85);
       tl.to(kbPose, {
         onStart: () => {
           if (keyMeshes[13]) {
@@ -1181,7 +1225,7 @@
         duration: 0.2
       }, 6.0);
 
-      // Key 4: React (index 7) at 6.6s
+      // Key 4: React at 6.6s
       tl.to(kbPose, {
         onStart: () => {
           if (keyMeshes[7]) {
@@ -1191,7 +1235,11 @@
         },
         duration: 0.15
       }, 6.6);
-      tl.to("#hud-card-4", { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, 6.7);
+      tl.to("#s2-row-4", { 
+        backgroundColor: "rgba(0, 204, 232, 0.25)", 
+        borderColor: "rgba(56, 189, 248, 0.6)", 
+        duration: 0.25 
+      }, 6.65);
       tl.to(kbPose, {
         onStart: () => {
           if (keyMeshes[7]) {
@@ -1202,7 +1250,7 @@
         duration: 0.2
       }, 6.8);
 
-      // Reset emissive intensities before scene end
+      // Reset emissive values
       tl.to(kbPose, {
         onStart: () => {
           [0, 5, 13, 7].forEach((idx) => {
@@ -1210,88 +1258,81 @@
           });
         },
         duration: 0.1
-      }, 8.2);
+      }, 7.6);
 
-      tl.to("#scene-2", { opacity: 0, duration: 0.35 }, 8.5);
+      tl.to("#scene-2", { opacity: 0, duration: 0.35 }, 7.7);
 
       // ====================================================
-      // SCENE 3 (8.8s - 13.5s): Verifiable Systems & FORENSIC-X
+      // SCENE 3 (8.0s - 13.0s): Real Projects Showcase
       // ====================================================
-      tl.to("#scene-3", { opacity: 1, duration: 0.3 }, 8.8);
+      tl.to("#scene-3", { opacity: 1, duration: 0.3 }, 8.0);
 
-      // 3D Keyboard glides subtly to background right
+      // 3D Keyboard smoothly recedes into background ambient depth
       tl.to(kbPose, {
-        x: 3.8,
-        y: 1.0,
-        z: -2.0,
+        x: 4.2,
+        y: 1.2,
+        z: -2.2,
         rotX: 0.3,
         rotY: -Math.PI / 4,
         rotZ: 0.1,
-        scale: 0.65,
-        opacity: 0.35,
+        scale: 0.5,
+        opacity: 0.2,
         duration: 0.8,
         ease: "power2.inOut",
         onUpdate: updateKeyboardPose
-      }, 8.8);
+      }, 8.0);
 
-      tl.to(".forensic-text", { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 9.0);
-      tl.to("#s3-preview-frame", { opacity: 1, x: 0, scale: 1, duration: 0.7, ease: "power3.out" }, 9.2);
+      tl.to(".projects-copy", { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 8.2);
+      tl.to("#s3-preview-frame", { opacity: 1, x: 0, scale: 1, duration: 0.7, ease: "power3.out" }, 8.4);
 
       // Smooth vertical pan across FORENSIC-X dashboard in ScrollingPreview
-      tl.to("#s3-scroll-img", { y: -160, duration: 3.5, ease: "power1.inOut" }, 9.6);
+      tl.to("#s3-scroll-img", { y: -160, duration: 3.5, ease: "power1.inOut" }, 8.8);
 
-      tl.to("#scene-3", { opacity: 0, duration: 0.35 }, 13.2);
+      tl.to("#scene-3", { opacity: 0, duration: 0.35 }, 12.7);
 
       // ====================================================
-      // SCENE 4 (13.5s - 17.2s): Interactive /resume Doodle Canvas
+      // SCENE 4 (13.0s - 16.8s): Interactive /resume Canvas
       // ====================================================
-      tl.to("#scene-4", { opacity: 1, duration: 0.3 }, 13.5);
-      tl.to(".resume-text", { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 13.7);
-      tl.to("#s4-canvas-frame", { opacity: 1, x: 0, scale: 1, duration: 0.6, ease: "power3.out" }, 13.9);
+      tl.to("#scene-4", { opacity: 1, duration: 0.3 }, 13.0);
+      tl.to(".resume-grid .projects-copy", { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 13.2);
+      tl.to("#s4-canvas-frame", { opacity: 1, x: 0, scale: 1, duration: 0.6, ease: "power3.out" }, 13.4);
 
       // Animated highlighter and doodle strokes
-      tl.to("#doodle-highlight", { strokeDashoffset: 0, duration: 0.8, ease: "power2.out" }, 14.5);
-      tl.to("#doodle-circle", { strokeDashoffset: 0, duration: 0.9, ease: "power2.out" }, 15.0);
-      tl.to("#s4-doodle-card", { opacity: 1, scale: 1, rotation: -2, duration: 0.45, ease: "back.out(2.0)" }, 14.8);
+      tl.to("#doodle-highlight", { strokeDashoffset: 0, duration: 0.8, ease: "power2.out" }, 14.0);
+      tl.to("#doodle-circle", { strokeDashoffset: 0, duration: 0.9, ease: "power2.out" }, 14.4);
+      tl.to("#s4-doodle-card", { opacity: 1, scale: 1, rotation: -2, duration: 0.45, ease: "back.out(2.0)" }, 14.6);
 
-      tl.to("#scene-4", { opacity: 0, duration: 0.35 }, 16.9);
+      tl.to("#scene-4", { opacity: 0, duration: 0.35 }, 16.5);
 
       // ====================================================
-      // SCENE 5 (17.2s - 20.0s): Kinetic Outro & Call-to-Action
+      // SCENE 5 (16.8s - 20.0s): Identity & Outro Card
       // ====================================================
-      tl.to("#scene-5", { opacity: 1, duration: 0.3 }, 17.2);
+      tl.to("#scene-5", { opacity: 1, duration: 0.3 }, 16.8);
 
-      // 3D Keyboard floats into low-angle isometric perspective
+      // 3D Keyboard floats safely beneath the card in center bottom
       tl.to(kbPose, {
         x: 0,
-        y: -1.05,
-        z: 0.9,
+        y: -1.18,
+        z: 0.85,
         rotX: 0.28,
-        rotY: 0,
+        rotY: 0.05,
         rotZ: 0,
-        scale: 1.0,
-        opacity: 0.75,
+        scale: 0.92,
+        opacity: 0.65,
         duration: 0.8,
         ease: "power2.out",
         onUpdate: updateKeyboardPose
-      }, 17.2);
+      }, 16.8);
 
       // Slow elegant rotation during outro
       tl.to(kbPose, {
-        rotY: 0.15,
-        duration: 2.0,
+        rotY: 0.18,
+        duration: 2.2,
         ease: "sine.inOut",
         onUpdate: updateKeyboardPose
-      }, 18.0);
+      }, 17.6);
 
-      // Kinetic Typography reveal
-      tl.to("#s5-name", { 
-        opacity: 1, 
-        scale: 1, 
-        duration: 0.7, 
-        ease: "power3.out" 
-      }, 17.4);
-      tl.to("#s5-pills", { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.5)" }, 17.8);
+      tl.to("#s5-card", { opacity: 1, scale: 1, y: 0, duration: 0.7, ease: "power3.out" }, 17.0);
 
       tl.seek(0);
     </script>
